@@ -1,5 +1,8 @@
-# mcv-m5
-Master in Computer Vision - M5 Visual recognition
+# Scene Understanding for Autonomous Vehicles
+### Master in Computer Vision - M5 Visual recognition
+<p align="justify"><b>Overview:</b> In this project we focus on scene understanding for autonomous vehicles. Understanding the context of the own vehicle is key for autonomous driving. The project consists of three parts or stages, corresponding to object detection, recognition/classification and semantic segmentation.
+Furthermore, we aim to learn the basic concepts, techniques, tricks and libraries to develop and evaluate deep neural networks.
+
 
 ## Fork this project
 Fork this project to start your group project. Add [robertbenavente](https://github.com/robertbenavente) and [lluisgomez](https://github.com/lluisgomez/) as contributors.
@@ -27,3 +30,11 @@ Download the [Overleaf document](https://www.overleaf.com/read/qrjbtzwtjhmx)
 
 ## Groups
    (T.B.A.)
+
+
+Title of the project.
+• Name of the group.
+• Name and contact email of all the team members.
+• Short abstract about the project (2 lines max).
+• Link to the Overleaf article (Not editable link), at the
+moment just the title and structure, no content yet.
