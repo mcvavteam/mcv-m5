@@ -20,7 +20,7 @@ Furthermore, we aim to learn the basic concepts, techniques, tricks and librarie
 - [Overleaf article]
 
 ### Papers
-- [Very Deep Convolutional Networks for Large-Scale Image Recognition (VGG)](https://www.google.es)
+- [Very Deep Convolutional Networks for Large-Scale Image Recognition (VGG)](https://www.overleaf.com/read/jwgpqfzvnwgk)
 - [Squeeze and Excitation Blocks](https://www.overleaf.com/read/bxmpwjqhckmn)
 
 ## Peer review
