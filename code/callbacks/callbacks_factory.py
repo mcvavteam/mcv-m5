@@ -89,7 +89,7 @@ class Callbacks_Factory():
                 log_dir = os.path.join(cf.usr_path, 'TensorBoardLogs')
             if not os.path.exists(log_dir):
                 os.makedirs(log_dir)
-            cb += [TensorBoard(log_dir=log_dir,
+            cb += [TensorBoard(log_dir=os.path.join(log_dir,cf.exp_name),
                                histogram_freq=cf.TensorBoard_histogram_freq,
                                write_graph=cf.TensorBoard_write_graph,
                                write_images=cf.TensorBoard_write_images)]
