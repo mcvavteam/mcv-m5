@@ -17,7 +17,7 @@ Furthermore, we aim to learn the basic concepts, techniques, tricks and librarie
 *   **Week 5:**
 
 ## Documentation
-- [Overleaf article]
+- [Overleaf article](https://www.overleaf.com/read/fbhxbjqydfwx)
 
 ### Papers
 - [Very Deep Convolutional Networks for Large-Scale Image Recognition (VGG)](https://www.overleaf.com/read/jwgpqfzvnwgk)
