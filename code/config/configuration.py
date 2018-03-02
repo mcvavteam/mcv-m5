@@ -44,6 +44,10 @@ class Configuration():
             os.makedirs(cf.savepath)
         cf.usr_path = self.usr_path
 
+        # Check if a previous execution exists with the same name
+        if os.path.exists(os.path.join(cf.savepath)):
+            raise ValueError('An experiment with the same name already existing.')
+
         # Copy config file
         shutil.copyfile(config_path, os.path.join(cf.savepath, "config.py"))
 
