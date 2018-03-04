@@ -19,7 +19,7 @@ The squeeze-excitation block consists on an squeeze step based on a Global Avera
 
 <p align="justify"><b>Results:</b></p>
 
-<p align="justify"><b>Weights of the model:</b></p>
+<p align="justify"><b>Weights of the model:</b>
 Download [here](https://drive.google.com/file/d/1Jpp32Rv_DRf0ml6YI4snDIONUjovq30b/view?usp=sharing)
 </p>
 <p align="justify"><b>Completeness of the goals:</b>
