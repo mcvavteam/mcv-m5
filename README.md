@@ -8,8 +8,10 @@
 - Sebastian Maya Hernández - sebastiancamilo.maya@e-campus.uab.cat
 - Pedro Luis Trigueros Mondéjar - pedroluis.trigueros@e-campus.uab.cat
 
-<p align="justify"><b>Overview:</b> In this project we focus on scene understanding for autonomous vehicles. Understanding the context of the own vehicle is key for autonomous driving. The project consists of three parts or stages, corresponding to object detection, recognition/classification and semantic segmentation.<br/>
-Furthermore, we aim to learn the basic concepts, techniques, tricks and libraries to develop and evaluate deep neural networks.</p>
+<p align="justify"><b>Overview:</b> 
+In this project we focus on scene understanding for autonomous vehicles. Understanding the context of the own vehicle is key for autonomous driving. The project consists of three parts or stages, corresponding to object detection, recognition/classification and semantic segmentation.<br/>
+Furthermore, we aim to learn the basic concepts, techniques, tricks and libraries to develop and evaluate deep neural networks.
+</p>
 
 ### WEEK2
 <p align="justify"><b>Code explanation:</b>
@@ -21,12 +23,15 @@ The squeeze-excitation block consists on an squeeze step based on a Global Avera
 
 </p>
 
-<p align="justify"><b>Weights of the model:</b>
-Download [here](https://drive.google.com/file/d/1Jpp32Rv_DRf0ml6YI4snDIONUjovq30b/view?usp=sharing)
-</p>
 <p align="justify"><b>Completeness of the goals:</b>
 100% completed
 </p>
+
+## Weights of the model
+*   **Week 2:** Download [here](https://drive.google.com/file/d/1Jpp32Rv_DRf0ml6YI4snDIONUjovq30b/view?usp=sharing)
+*   **Week 3:**
+*   **Week 4:**
+*   **Week 5:**
 
 ## Instructions for use code 
 *   **Week 2:** python train.py -c config/configFile.py -e expName
