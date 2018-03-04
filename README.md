@@ -19,8 +19,13 @@ We have implemented the winner architecture of ILSVRC 2017 Classification Compet
 The squeeze-excitation block consists on an squeeze step based on a Global Average Pooling over the output of the residual block and afterwards, an excitation step based on obtaining some weights for each output channel of the residual block and multiplying the channels by those weights. To obtain those weights, two fully-connected layers are used. The first one performs a dimensionality reduction over the number of channels C and uses ReLU activation. The reduction has been performed with a reduction ratio of r=16. The second FC layer  recovers the original dimensionality C and uses sigmoid activation for obtaining a weight in range [0,1].
 </p>
 
-<p align="justify"><b>Results:</b>
+<p align="justify"><b>Datasets:</b>
 
+[Ttk100](http://cg.cs.tsinghua.edu.cn/traffic-sign/)
+[BelgiumTSC](http://btsd.ethz.ch/shareddata/)
+</p>
+
+<p align="justify"><b>Results:</b>
 
 | Neuronal Network         | Dataset     | Accuracy training  | Accuracy test |
 | ------------------------ |:-----------:| ------------------:|:-------------:|
@@ -28,6 +33,8 @@ The squeeze-excitation block consists on an squeeze step based on a Global Avera
 | VGG                      | BelgiumTSC  | 0.9875             | 0.9607        |
 | queeze-Excitation ResNet | Ttk100      | 0.9987             | 0.9619        |
 |queeze-Excitation ResNet  | BelgiumTSC  | 0.9978             | 0.9655        |
+
+
 
 </p>
 
