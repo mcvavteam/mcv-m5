@@ -21,8 +21,7 @@ The squeeze-excitation block consists on an squeeze step based on a Global Avera
 
 <p align="justify"><b>Weights of the model:</b>
 Donwload (https://drive.google.com/file/d/1Jpp32Rv_DRf0ml6YI4snDIONUjovq30b/view?usp=sharing)
-<p align="justify"><b>Completeness of the goals:</b>
-* **100%** complete
+<p align="justify"><b>Completeness of the goals:</b>100% completed
 
 ## Instructions for use code 
 *   **Week 2:** python train.py -c config/configFile.py -e expName
