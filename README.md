@@ -33,7 +33,7 @@ The squeeze-excitation block consists on an squeeze step based on a Global Avera
 | VGG                      | BelgiumTSC  | 0.9875             | 0.9607        |
 | queeze-Excitation ResNet | Ttk100      | 0.9987             | 0.9619        |
 |queeze-Excitation ResNet  | BelgiumTSC  | 0.9978             | 0.9655        |
-| VGG with Crop (250,250)  | Ttk100      | 0.9513             | 0.9226        |
+| VGG with Crop (224,224)  | Ttk100      | 0.9513             | 0.9226        |
 
 
 
