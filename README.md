@@ -10,17 +10,17 @@
 
 <p align="justify"><b>Overview:</b> In this project we focus on scene understanding for autonomous vehicles. Understanding the context of the own vehicle is key for autonomous driving. The project consists of three parts or stages, corresponding to object detection, recognition/classification and semantic segmentation.<br/>
 Furthermore, we aim to learn the basic concepts, techniques, tricks and libraries to develop and evaluate deep neural networks.</p>
-<p align="justify">
 
 ### WEEK2
 <b>Code explanation:</b>
 We have implemented the winner architecture of ILSVRC 2017 Classification Competition, the Squeeze-Excitation ResNet. 
 The squeeze-excitation block consists on an squeeze step based on a Global Average Pooling over the output of the residual block and afterwards, an excitation step based on obtaining some weights for each output channel of the residual block and multiplying the channels by those weights. To obtain those weights, two fully-connected layers are used. The first one performs a dimensionality reduction over the number of channels C and uses ReLU activation. The reduction has been performed with a reduction ratio of r=16. The second FC layer  recovers the original dimensionality C and uses sigmoid activation for obtaining a weight in range [0,1].
+</p>
 
 <p align="justify"><b>Results:</b></p>
 
 <p align="justify"><b>Weights of the model:</b></p>
-[Download](https://drive.google.com/file/d/1Jpp32Rv_DRf0ml6YI4snDIONUjovq30b/view?usp=sharing)
+Download [here](https://drive.google.com/file/d/1Jpp32Rv_DRf0ml6YI4snDIONUjovq30b/view?usp=sharing)
 <p align="justify"><b>Completeness of the goals:</b>100% completed
 
 ## Instructions for use code 
