@@ -21,6 +21,15 @@ The squeeze-excitation block consists on an squeeze step based on a Global Avera
 
 <p align="justify"><b>Results:</b>
 
+
+| Neuronal Network         | Dataset     | Accuracy training  | Accuracy test |
+| ------------------------ |:-----------:| ------------------:|:-------------:|
+| VGG                      | Ttk100      | 0.9664             | 0.8546        |
+| VGG                      | BelgiumTSC  | 0.9875             | 0.9607        |
+| queeze-Excitation ResNet | Ttk100      | 0.9987             | 0.9619        |
+|queeze-Excitation ResNet  | BelgiumTSC  | 0.9978             | 0.9655        |
+|--------------------------|-------------|--------------------|---------------|
+
 </p>
 
 <p align="justify"><b>Completeness of the goals:</b>
