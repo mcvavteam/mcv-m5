@@ -1,6 +1,6 @@
 # Dataset
 problem_type                 = 'classification'# ['classification' | 'detection' | 'segmentation']
-dataset_name                 = 'KITTI'# Dataset name
+dataset_name                 = 'KITTI'         # Dataset name
 dataset_name2                = None            # Second dataset name. None if not Domain Adaptation
 perc_mb2                     = None            # Percentage of data from the second dataset in each minibatch
 
@@ -14,7 +14,7 @@ weights_file                 = 'kittiVGGweights.hdf5'  # Training weight file na
 
 # Parameters
 train_model                  = True            # Train the model
-test_model                   = True            # Test the model
+test_model                   = False           # Test the model
 pred_model                   = False           # Predict using the model
 
 # Debug
