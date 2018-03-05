@@ -40,6 +40,7 @@ The squeeze-excitation block consists on an squeeze step based on a Global Avera
 </p>
 
 <b>Completeness of the goals:</b>
+
 <form>
 <input type="checkbox" checked> a) Run the provided code.</input> 
 - Analyze the dataset.
@@ -51,6 +52,7 @@ The squeeze-excitation block consists on an squeeze step based on a Global Avera
 <input type="checkbox" checked> c) Implement a new network (c.2 - Develop the network entirely by yourself).</input> 
 <input type="checkbox" checked> e) Report showing the achieved results.</input> 
 </form>
+
 ## Weights of the model
 *   **Week 2:** Download [here](https://drive.google.com/file/d/1Jpp32Rv_DRf0ml6YI4snDIONUjovq30b/view?usp=sharing)
 *   **Week 3:**
