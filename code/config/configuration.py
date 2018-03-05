@@ -41,8 +41,8 @@ class Configuration():
                                          cf.exp_name)
 
         # Check if a previous execution exists with the same name
-        if os.path.exists(os.path.join(cf.savepath)) and cf.train_model:
-            raise ValueError('An experiment with the same name is already existing.')
+        #if os.path.exists(os.path.join(cf.savepath)) and cf.train_model:
+        #    raise ValueError('An experiment with the same name is already existing.')
 
         cf.log_file = os.path.join(cf.savepath, "logfile.log")
         if not os.path.exists(cf.savepath):

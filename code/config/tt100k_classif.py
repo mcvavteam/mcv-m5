@@ -6,7 +6,7 @@ perc_mb2                     = None            # Percentage of data from the sec
 
 # Model
 model_name                   = 'vgg16'          # Model to use ['fcn8' | 'lenet' | 'alexNet' | 'vgg16' |  'vgg19' | 'resnet50' | 'InceptionV3']
-freeze_layers_from           = 'base_model'            # Freeze layers from 0 to this layer during training (Useful for finetunning) [None | 'base_model' | Layer_id]
+freeze_layers_from           = None            # Freeze layers from 0 to this layer during training (Useful for finetunning) [None | 'base_model' | Layer_id]
 show_model                   = False           # Show the architecture layers
 load_imageNet                = False           # Load Imagenet weights and normalize following imagenet procedure
 load_pretrained              = True            # Load a pretrained model for doing finetuning
