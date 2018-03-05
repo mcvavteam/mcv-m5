@@ -42,11 +42,11 @@ The squeeze-excitation block consists on an squeeze step based on a Global Avera
 <b>Completeness of the goals:</b>
 
 - [x] a) Run the provided code.<br> 
-<t> - Analyze the dataset.<br> 
-<t> - Calculate the accuracy on train and test sets.<br> 
-<t> - Evaluate different techniques in the configuration file.<br> 
-<t> - Transfer learning to another dataset (BTS).<br> 
-<t> - Understand which parts of the code are doing what you specify in the configuration file.<br> 
+		- Analyze the dataset.<br> 
+		- Calculate the accuracy on train and test sets.<br> 
+		- Evaluate different techniques in the configuration file.<br> 
+		- Transfer learning to another dataset (BTS).<br> 
+		- Understand which parts of the code are doing what you specify in the configuration file.<br> 
 - [x] b) Train a network on another dataset.<br> 
 - [x] c) Implement a new network (c.2 - Develop the network entirely by yourself).<br> 
 - [x] e) Report showing the achieved results.<br>
