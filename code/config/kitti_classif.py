@@ -14,7 +14,7 @@ weights_file                 = 'kittiVGGweights.hdf5'  # Training weight file na
 
 # Parameters
 train_model                  = True            # Train the model
-test_model                   = True           # Test the model
+test_model                   = False           # Test the model
 pred_model                   = False           # Predict using the model
 
 # Debug
