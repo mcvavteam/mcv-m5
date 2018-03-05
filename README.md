@@ -21,20 +21,21 @@ The squeeze-excitation block consists on an squeeze step based on a Global Avera
 
 <p align="justify"><b>Datasets:</b>
 
-[Ttk100](http://cg.cs.tsinghua.edu.cn/traffic-sign/)<br/>
+[TT100K](http://cg.cs.tsinghua.edu.cn/traffic-sign/)<br/>
 [BelgiumTSC](http://btsd.ethz.ch/shareddata/)
 </p>
 
 <p align="justify"><b>Results:</b>
 
 | Neuronal Network         | Dataset     | Accuracy training  | Accuracy test |
-| ------------------------ |:-----------:| ------------------:|:-------------:|
-| VGG                      | Ttk100      | 0.9664             | 0.8546        |
-| VGG                      | BelgiumTSC  | 0.9875             | 0.9607        |
-| queeze-Excitation ResNet | Ttk100      | 0.9987             | 0.9619        |
+| ------------------------ |:-----------:|:------------------:|:-------------:|
+|VGG                       | TT100K      | 0.9664             | 0.8546        |
+|VGG                       | BelgiumTSC  | 0.9875             | 0.9607        |
+|queeze-Excitation ResNet  | TT100K      | 0.9987             | 0.9619        |
 |queeze-Excitation ResNet  | BelgiumTSC  | 0.9978             | 0.9655        |
-|VGG with Crop (224,224)   | Ttk100      | 0.9513             | 0.9226        |
-|VGG with Fine-Tuning      | Ttk100      | 0.6610             | 0.7859        |
+|VGG with Crop (224,224)   | TT100K      | 0.9513             | 0.9226        |
+|VGG with Fine-Tuning      | TT100K      | 0.6610             | 0.7859        |
+|VGG with weights          | BelgiumTSC  | 0.9663             | 0.9497        |
 
 </p>
 
