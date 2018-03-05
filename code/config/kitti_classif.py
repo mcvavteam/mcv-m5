@@ -14,11 +14,11 @@ weights_file                 = 'kittiVGGweights.hdf5'  # Training weight file na
 
 # Parameters
 train_model                  = True            # Train the model
-test_model                   = False           # Test the model
+test_model                   = True           # Test the model
 pred_model                   = False           # Predict using the model
 
 # Debug
-debug                        = True           # Use only few images for debuging
+debug                        = False           # Use only few images for debuging
 debug_images_train           = 50              # N images for training in debug mode (-1 means all)
 debug_images_valid           = 50              # N images for validation in debug mode (-1 means all)
 debug_images_test            = 50              # N images for testing in debug mode (-1 means all)
