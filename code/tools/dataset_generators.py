@@ -134,7 +134,7 @@ class Dataset_Generators():
                                        gcn=cf.norm_gcn,
                                        zca_whitening=cf.norm_zca_whitening,
                                        crop_size=cf.crop_size_test,
-                                       dim_ordering='default',
+                                       dim_ordering='th' if 'yolo' in cf.model_name else 'default',
                                        class_mode=cf.dataset.class_mode)
             test_gen = dg_ts.flow_from_directory(directory=cf.dataset.path_test_img,
                                                  gt_directory=cf.dataset.path_test_mask,
