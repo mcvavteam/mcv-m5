@@ -4,6 +4,8 @@ import os
 import sys
 from getpass import getuser
 import matplotlib
+import time
+
 matplotlib.use('Agg')  # Faster plot
 
 # Import tools
@@ -38,7 +40,9 @@ def process(cf):
 
     if cf.train_model:
         # Train the model
+        startt = time.time()
         model.train(train_gen, valid_gen, cb)
+        print ('   Training time: {}. seconds'.format(time.time() - startt))
 
     if cf.test_model:
         # Compute validation metrics
