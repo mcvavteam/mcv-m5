@@ -53,10 +53,7 @@ The squeeze-excitation block consists on an squeeze step based on a Global Avera
 - [x] e) Report showing the achieved results.<br>
 
 ## Weights of the model
-*   **Week 2:** Download [here](https://drive.google.com/file/d/1Jpp32Rv_DRf0ml6YI4snDIONUjovq30b/view?usp=sharing)
-*   **Week 3:**
-*   **Week 4:**
-*   **Week 5:**
+The weights, experiments' info and the TensorBoard logs are available [here](https://drive.google.com/drive/folders/15mccIEOhimkFo_5K3M43Vmu9xT0CEvpC?usp=sharing).
 
 ## Instructions for use code 
 *   **Week 2:** python train.py -c config/configFile.py -e expName
