@@ -32,6 +32,7 @@ The weights, experiments' info and the TensorBoard logs are available [here](htt
 ### Papers
 - [Very Deep Convolutional Networks for Large-Scale Image Recognition (VGG)](https://www.overleaf.com/read/jwgpqfzvnwgk)
 - [Squeeze and Excitation Blocks](https://www.overleaf.com/read/bxmpwjqhckmn)
+- [You Only Look Once (YOLO)](https://www.overleaf.com/read/fvtfvvwbptsv)
 
 ## Object Recognition (Week 2)
 
