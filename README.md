@@ -24,15 +24,16 @@ Furthermore, we aim to learn the basic concepts, techniques, tricks and librarie
 
 ### Documentation
 - [Overleaf article](https://www.overleaf.com/read/fbhxbjqydfwx)
-- [Google Slides](https://docs.google.com/presentation/d/1rJLKQuK2cMjYeAlZBgj0RB2ovhd1AvWGDzMVq4Z844E/edit?usp=sharing)
+- [Google Slides](https://docs.google.com/presentation/d/1ciF9LLclwjYReKp43KqC6W29ly3jamvE6WkJK1HoqTQ/edit?usp=sharing)
 
 ### Weights of the model
 The weights, experiments' info and the TensorBoard logs are available [here](https://drive.google.com/drive/folders/15mccIEOhimkFo_5K3M43Vmu9xT0CEvpC?usp=sharing).
 
-### Papers
+### Paper Summaries
 - [Very Deep Convolutional Networks for Large-Scale Image Recognition (VGG)](https://www.overleaf.com/read/jwgpqfzvnwgk)
 - [Squeeze and Excitation Blocks](https://www.overleaf.com/read/bxmpwjqhckmn)
 - [You Only Look Once (YOLO)](https://www.overleaf.com/read/fvtfvvwbptsv)
+- [Focal Loss for Dense Object Detection](https://www.overleaf.com/read/xsknbrtmsbgd)
 
 ## Object Recognition (Week 2)
 
