@@ -35,6 +35,12 @@ The weights, experiments' info and the TensorBoard logs are available [here](htt
 - [You Only Look Once (YOLO)](https://www.overleaf.com/read/fvtfvvwbptsv)
 - [Focal Loss for Dense Object Detection](https://www.overleaf.com/read/xsknbrtmsbgd)
 
+
+### Instructions for use code 
+```
+python train.py -c config/configFile.py -e expName
+```
+
 ## Object Recognition (Week 2)
 
 <p align="justify"><b>Code explanation:</b>
@@ -73,13 +79,13 @@ The squeeze-excitation block consists on an squeeze step based on a Global Avera
 
 <b>Completeness of the goals:</b>
 
-- [ ] a) Run the provided code.<br> 
-	- [ ] Analyze the dataset.<br> 
-	- [ ] Compute and compare the detection F-score on the train, validation and test parts separately. <br> 
+- [x] a) Run the provided code.<br> 
+	- [x] Analyze the dataset.<br> 
+	- [x] Compute and compare the detection F-score on the train, validation and test parts separately. <br> 
 		
-- [ ] b) Read two papers cited in the object detection networks section.<br>  
-	- [ ] YOLO.<br>  
-	- [ ] Another paper.<br> 
+- [x] b) Read two papers cited in the object detection networks section.<br>  
+	- [x] YOLO.<br>  
+	- [x] Another paper.<br> 
 - [ ] c) Implement a new network.<br> 
 - [ ] d) Train the networks for another dataset (Udacity).<br>
 - [ ] e) Try to boost the performance of your network.<br>
