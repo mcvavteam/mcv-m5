@@ -8,6 +8,8 @@ from keras.utils.vis_utils import plot_model
 # Classification models
 #from models.lenet import build_lenet
 #from models.alexNet import build_alexNet
+from metrics.retina_metrics import RetinaLoss
+from models.retinanet import build_retinanet
 from models.se_resnet50 import build_se_resnet50
 from models.vgg import build_vgg
 #from models.resnet import build_resnet50
@@ -49,7 +51,10 @@ class Model_Factory():
                         cf.target_size_train[0],
                         cf.target_size_train[1])
             # TODO detection : check model, different detection nets may have different losses and metrics
-            loss = YOLOLoss(in_shape, cf.dataset.n_classes, cf.dataset.priors)
+            if cf.model_name == 'retinanet':
+                loss = RetinaLoss(in_shape, cf.dataset.n_classes, cf.dataset.priors)
+            else:
+                loss = YOLOLoss(in_shape, cf.dataset.n_classes, cf.dataset.priors)
             metrics = [YOLOMetrics(in_shape, cf.dataset.n_classes, cf.dataset.priors,name='avg_recall'),YOLOMetrics(in_shape, cf.dataset.n_classes, cf.dataset.priors,name='avg_iou')]
         elif cf.dataset.class_mode == 'segmentation':
             if K.image_dim_ordering() == 'th':
@@ -76,7 +81,7 @@ class Model_Factory():
     def make(self, cf, optimizer=None):
         if cf.model_name in ['lenet', 'alexNet', 'vgg16', 'vgg19', 'resnet50',
                              'InceptionV3', 'fcn8', 'unet', 'segnet',
-                             'segnet_basic', 'resnetFCN', 'yolo', 'tiny-yolo','se_resnet50']:
+                             'segnet_basic', 'resnetFCN', 'yolo', 'tiny-yolo','se_resnet50','retinanet']:
             if optimizer is None:
                 raise ValueError('optimizer can not be None')
 
@@ -162,6 +167,11 @@ class Model_Factory():
                                cf.dataset.n_priors,
                                load_pretrained=cf.load_imageNet,
                                freeze_layers_from=cf.freeze_layers_from, tiny=True)
+        elif cf.model_name == 'retinanet':
+            model = build_retinanet(in_shape, cf.dataset.n_classes,
+                               cf.dataset.n_priors,
+                               load_pretrained=cf.load_imageNet,
+                               freeze_layers_from=cf.freeze_layers_from)
         else:
             raise ValueError('Unknown model')
 
