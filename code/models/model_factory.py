@@ -8,7 +8,7 @@ from keras.utils.vis_utils import plot_model
 # Classification models
 #from models.lenet import build_lenet
 #from models.alexNet import build_alexNet
-from metrics.retina_metrics import RetinaLoss
+from metrics.retina_metrics import RetinaLoss, RetinaMetrics
 from models.retinanet import build_retinanet
 from models.se_resnet50 import build_se_resnet50
 from models.vgg import build_vgg
@@ -53,9 +53,11 @@ class Model_Factory():
             # TODO detection : check model, different detection nets may have different losses and metrics
             if cf.model_name == 'retinanet':
                 loss = RetinaLoss(in_shape, cf.dataset.n_classes, cf.dataset.priors)
+                metrics = [RetinaMetrics(in_shape, cf.dataset.n_classes, cf.dataset.priors, name='avg_recall'),
+                           RetinaMetrics(in_shape, cf.dataset.n_classes, cf.dataset.priors, name='avg_iou')]
             else:
                 loss = YOLOLoss(in_shape, cf.dataset.n_classes, cf.dataset.priors)
-            metrics = [YOLOMetrics(in_shape, cf.dataset.n_classes, cf.dataset.priors,name='avg_recall'),YOLOMetrics(in_shape, cf.dataset.n_classes, cf.dataset.priors,name='avg_iou')]
+                metrics = [YOLOMetrics(in_shape, cf.dataset.n_classes, cf.dataset.priors,name='avg_recall'),YOLOMetrics(in_shape, cf.dataset.n_classes, cf.dataset.priors,name='avg_iou')]
         elif cf.dataset.class_mode == 'segmentation':
             if K.image_dim_ordering() == 'th':
                 if variable_input_size:
