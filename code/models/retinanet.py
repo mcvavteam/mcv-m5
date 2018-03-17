@@ -33,24 +33,33 @@ def build_retinanet(img_shape=(3, 416, 416), n_classes=80, n_priors=5,
     #Concatenation of pyramid levels
     # class_subnet
     class_subnet = [class_subnet_model(f) for f in features]
-    class_subnet_reshape = [Reshape((10,10,n_classes*n_priors), name='class_reshape')(out) for out in class_subnet]
+    # class_subnet_reshape = [tf.reshape(out, (None,10,10,n_classes*n_priors), name='class_reshape') for out in class_subnet]
+    # class_subnet_reshape = [Reshape((10,10,n_classes*n_priors), name='class_reshape')(out) for out in class_subnet]
+    class_subnet_reshape = [keras.layers.UpSampling2D(size=(10, 1), name='class_upsample')(out) for out in class_subnet]
 
-    class_subnet = Concatenate(axis=3, name='class_subnet_outputs')(class_subnet_reshape)
-    class_subnet = Conv2D(filters=n_priors*n_classes, kernel_size=(1, 1), strides=(1, 1))(class_subnet)
+    # class_subnet = Concatenate(axis=3, name='class_subnet_outputs')(class_subnet_reshape)
+    # class_subnet = Conv2D(filters=n_priors*n_classes, kernel_size=(1, 1), strides=(1, 1))(class_subnet)
 
+    class_subnet = class_subnet_reshape[2]
 
     # bbox_subnet
     bbox_subnet = [bbox_subnet_model(f) for f in features]
-    bbox_subnet_reshape = [Reshape((10,10, (4+1)*n_priors), name='bbox_reshape')(out) for out in bbox_subnet]
+    # bbox_subnet_reshape = [Reshape((10,10, (4+1)*n_priors), name='bbox_reshape')(out) for out in bbox_subnet]
+    bbox_subnet_reshape = [keras.layers.UpSampling2D(size=(10, 1), name='bbox_upsample')(out) for out in bbox_subnet]
 
-    bbox_subnet = Concatenate(axis=3, name='bbox_subnet_outputs')(bbox_subnet_reshape)
-    bbox_subnet = Conv2D(filters=n_priors*(4+1), kernel_size=(1, 1), strides=(1, 1))(bbox_subnet)
+    # bbox_subnet = Concatenate(axis=3, name='bbox_subnet_outputs')(bbox_subnet_reshape)
+    # bbox_subnet = Conv2D(filters=n_priors*(4+1), kernel_size=(1, 1), strides=(1, 1))(bbox_subnet)
 
-    K.set_image_dim_ordering('th')
+    bbox_subnet = bbox_subnet_reshape[2]
+
 
     # Output
     # n_priors: anchors, 4: offsets, n_classes: probability for each class, 1: confidence of having an object
-    output = Concatenate(axis=1)([class_subnet, bbox_subnet])
+    output = Concatenate(axis=3)([class_subnet, bbox_subnet])
+
+    K.set_image_dim_ordering('th')
+
+    output = keras.layers.Permute((3, 2, 1))(output)
 
     model = Model(inputs=inputs, outputs=output)
 
@@ -73,7 +82,7 @@ def default_classification_model(num_classes, num_anchors, pyramid_feature_size=
             filters=classification_feature_size,
             activation='relu',
             name='pyramid_classification_{}'.format(i),
-            # kernel_initializer=keras.initializers.normal(mean=0.0, stddev=0.01, seed=None),
+            kernel_initializer=keras.initializers.normal(mean=0.0, stddev=0.01, seed=None),
             bias_initializer='zeros',
             **options
         )(outputs)
