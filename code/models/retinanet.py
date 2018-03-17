@@ -90,7 +90,7 @@ def build_retinanet(img_shape=(3, 416, 416), n_classes=80, n_priors=5,
     # n_priors: anchors, 4: offsets, n_classes: probability for each class, 1: confidence of having an object
     output = Concatenate(axis=3)([class_subnet, bbox_subnet])
 
-    K.set_image_dim_ordering('tf')
+    # K.set_image_dim_ordering('tf')
 
     output = keras.layers.Permute((3, 2, 1))(output)
 
