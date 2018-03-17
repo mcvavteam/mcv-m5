@@ -16,12 +16,19 @@ def build_retinanet(img_shape=(3, 416, 416), n_classes=80, n_priors=5,
     # RetinaNet model is only implemented for TF backend
     assert(K.backend() == 'tensorflow')
 
-
     inputs=Input(shape=img_shape)
+
+    K.set_image_dim_ordering('th')
 
     backbone_net = keras_resnet.models.ResNet50(inputs, include_top=False, freeze_bn=True)
 
     _, C3, C4, C5 = backbone_net.outputs  # we ignore C2
+
+    K.set_image_dim_ordering('tf')
+
+    C3 = keras.layers.Permute((3, 2, 1))(C3)
+    C4 = keras.layers.Permute((3, 2, 1))(C4)
+    C5 = keras.layers.Permute((3, 2, 1))(C5)
 
     # compute pyramid features as per https://arxiv.org/abs/1708.02002
     features = create_pyramid_features(C3, C4, C5)
@@ -35,29 +42,29 @@ def build_retinanet(img_shape=(3, 416, 416), n_classes=80, n_priors=5,
     class_subnet = [class_subnet_model(f) for f in features]
     # class_subnet_reshape = [tf.reshape(out, (None,10,10,n_classes*n_priors), name='class_reshape') for out in class_subnet]
     # class_subnet_reshape = [Reshape((10,10,n_classes*n_priors), name='class_reshape')(out) for out in class_subnet]
-    class_subnet_reshape = [keras.layers.UpSampling2D(size=(10, 1), name='class_upsample')(out) for out in class_subnet]
+    # class_subnet_reshape = [keras.layers.UpSampling2D(size=(10, 1), name='class_upsample')(out) for out in class_subnet]
 
-    # class_subnet = Concatenate(axis=3, name='class_subnet_outputs')(class_subnet_reshape)
-    # class_subnet = Conv2D(filters=n_priors*n_classes, kernel_size=(1, 1), strides=(1, 1))(class_subnet)
+    class_subnet = Concatenate(axis=3, name='class_subnet_outputs')(class_subnet_reshape)
+    class_subnet = Conv2D(filters=n_priors*n_classes, kernel_size=(1, 1), strides=(1, 1))(class_subnet)
 
-    class_subnet = class_subnet_reshape[2]
+    # class_subnet = class_subnet_reshape[2]
 
     # bbox_subnet
     bbox_subnet = [bbox_subnet_model(f) for f in features]
     # bbox_subnet_reshape = [Reshape((10,10, (4+1)*n_priors), name='bbox_reshape')(out) for out in bbox_subnet]
-    bbox_subnet_reshape = [keras.layers.UpSampling2D(size=(10, 1), name='bbox_upsample')(out) for out in bbox_subnet]
+    # bbox_subnet_reshape = [keras.layers.UpSampling2D(size=(10, 1), name='bbox_upsample')(out) for out in bbox_subnet]
 
-    # bbox_subnet = Concatenate(axis=3, name='bbox_subnet_outputs')(bbox_subnet_reshape)
-    # bbox_subnet = Conv2D(filters=n_priors*(4+1), kernel_size=(1, 1), strides=(1, 1))(bbox_subnet)
+    bbox_subnet = Concatenate(axis=3, name='bbox_subnet_outputs')(bbox_subnet_reshape)
+    bbox_subnet = Conv2D(filters=n_priors*(4+1), kernel_size=(1, 1), strides=(1, 1))(bbox_subnet)
 
-    bbox_subnet = bbox_subnet_reshape[2]
+    # bbox_subnet = bbox_subnet_reshape[2]
 
 
     # Output
     # n_priors: anchors, 4: offsets, n_classes: probability for each class, 1: confidence of having an object
     output = Concatenate(axis=3)([class_subnet, bbox_subnet])
 
-    K.set_image_dim_ordering('th')
+    K.set_image_dim_ordering('tf')
 
     output = keras.layers.Permute((3, 2, 1))(output)
 
