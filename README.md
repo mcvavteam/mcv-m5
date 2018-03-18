@@ -80,6 +80,10 @@ The weights, experiments' info and the TensorBoard logs are available [here](htt
 ## Object Detection (Weeks 3-4)
 
 <p align="justify"><b>Code explanation:</b>
+We used for object detection the network YOLO and we implemented the RetinaNet based on the paper Focal Loss for Dense Object Detection. 
+YOLO or You Only Look Once consists on dividing the input image into an S x S grid. If the center of an object falls into a grid cell, that grid cell is responsible for detecting that object. Each grid cell predicts B bounding boxes and confidence scores for those boxes, reflecting how confidence and accurate the model is to that prediction.
+On the other hand, the RetinaNet consists on ....
+
 </p>
 
 <p align="justify"><b>Datasets:</b>
