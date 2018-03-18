@@ -47,7 +47,7 @@ seed_test                    = 1924            # Random seed for the testing shu
 optimizer                    = 'rmsprop'       # Optimizer
 learning_rate                = 0.0001          # Training learning rate
 weight_decay                 = 0.              # Weight decay or L2 parameter norm penalty
-n_epochs                     = 10              # Number of epochs during training
+n_epochs                     = 40              # Number of epochs during training
 
 # Callback save results
 save_results_enabled         = False           # Enable the Callback
@@ -108,15 +108,15 @@ norm_zca_whitening                 = False     # Apply ZCA whitening
 cb_weights_method                  = None      # Label weight balance [None | 'median_freq_cost' | 'rare_freq_cost']
 
 # Data augmentation for training
-da_rotation_range                  = 0          # Rnd rotation degrees 0-180
-da_width_shift_range               = 0.       # Rnd horizontal shift
+da_rotation_range                  = 10          # Rnd rotation degrees 0-180
+da_width_shift_range               = 0.1       # Rnd horizontal shift
 da_height_shift_range              = 0.       # Rnd vertical shift
-da_shear_range                     = 0.       # Shear in radians
-da_zoom_range                      = 0.       # Zoom
+da_shear_range                     = 0.1       # Shear in radians
+da_zoom_range                      = 0.1       # Zoom
 da_channel_shift_range             = 0.         # Channecf.l shifts
-da_fill_mode                       = 'nearest'  # Fill mode
+da_fill_mode                       = 'reflect'  # Fill mode
 da_cval                            = 0.         # Void image value
-da_horizontal_flip                 = False      # Rnd horizontal flip
+da_horizontal_flip                 = True      # Rnd horizontal flip
 da_vertical_flip                   = False      # Rnd vertical flip
 da_spline_warp                     = False      # Enable elastic deformation
 da_warp_sigma                      = 10         # Elastic deformation sigma

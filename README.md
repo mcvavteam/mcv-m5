@@ -14,20 +14,10 @@ In this project we focus on scene understanding for autonomous vehicles. Underst
 Furthermore, we aim to learn the basic concepts, techniques, tricks and libraries to develop and evaluate deep neural networks.
 </p>
 
-<p align="justify"><b>Datasets:</b>
-
-[TT100K](http://cg.cs.tsinghua.edu.cn/traffic-sign/)<br/>
-[BelgiumTSC](http://btsd.ethz.ch/shareddata/)<br/>
-[KITTI](http://www.cvlibs.net/datasets/kitti/)<br/>
-
-</p>
 
 ### Documentation
 - [Overleaf article](https://www.overleaf.com/read/fbhxbjqydfwx)
 - [Google Slides](https://docs.google.com/presentation/d/1ciF9LLclwjYReKp43KqC6W29ly3jamvE6WkJK1HoqTQ/edit?usp=sharing)
-
-### Weights of the model
-The weights, experiments' info and the TensorBoard logs are available [here](https://drive.google.com/drive/folders/15mccIEOhimkFo_5K3M43Vmu9xT0CEvpC?usp=sharing).
 
 ### Paper Summaries
 - [Very Deep Convolutional Networks for Large-Scale Image Recognition (VGG)](https://www.overleaf.com/read/jwgpqfzvnwgk)
@@ -47,6 +37,18 @@ python train.py -c config/configFile.py -e expName
 We have implemented the winner architecture of ILSVRC 2017 Classification Competition, the Squeeze-Excitation ResNet. 
 The squeeze-excitation block consists on an squeeze step based on a Global Average Pooling over the output of the residual block and afterwards, an excitation step based on obtaining some weights for each output channel of the residual block and multiplying the channels by those weights. To obtain those weights, two fully-connected layers are used. The first one performs a dimensionality reduction over the number of channels C and uses ReLU activation. The reduction has been performed with a reduction ratio of r=16. The second FC layer  recovers the original dimensionality C and uses sigmoid activation for obtaining a weight in range [0,1].
 </p>
+
+<p align="justify"><b>Datasets:</b>
+
+[TT100K](http://cg.cs.tsinghua.edu.cn/traffic-sign/)<br/>
+[BelgiumTSC](http://btsd.ethz.ch/shareddata/)<br/>
+[KITTI](http://www.cvlibs.net/datasets/kitti/)<br/>
+
+</p>
+
+### Weights of the model
+The weights, experiments' info and the TensorBoard logs are available [here](https://drive.google.com/drive/folders/15mccIEOhimkFo_5K3M43Vmu9xT0CEvpC?usp=sharing).
+
 
 <b>Completeness of the goals:</b>
 
@@ -77,6 +79,22 @@ The squeeze-excitation block consists on an squeeze step based on a Global Avera
 
 ## Object Detection (Weeks 3-4)
 
+<p align="justify"><b>Code explanation:</b>
+</p>
+
+<p align="justify"><b>Datasets:</b>
+
+[TT100K](http://cg.cs.tsinghua.edu.cn/traffic-sign/)<br/>
+[Udacity](https://github.com/udacity/self-driving-car/tree/master/datasets)<br/>
+
+</p>
+
+
+### Weights of the model
+The weights, experiments' info and the TensorBoard logs are available [here](https://drive.google.com/open?id=14fVv3XZBtugphYFxJ4Sr6zqHHujvRRaz).
+
+
+
 <b>Completeness of the goals:</b>
 
 - [x] a) Run the provided code.<br> 
@@ -86,14 +104,20 @@ The squeeze-excitation block consists on an squeeze step based on a Global Avera
 - [x] b) Read two papers cited in the object detection networks section.<br>  
 	- [x] YOLO.<br>  
 	- [x] Another paper.<br> 
-- [ ] c) Implement a new network.<br> 
-- [ ] d) Train the networks for another dataset (Udacity).<br>
-- [ ] e) Try to boost the performance of your network.<br>
-- [ ] f) Report.<br>
+- [x] c) Implement a new network.<br> 
+- [x] d) Train the networks for another dataset (Udacity).<br>
+- [x] e) Try to boost the performance of your network.<br>
+- [x] f) Report.<br>
 
 
-## Instructions for use code 
-*   **Week 2:** python train.py -c config/configFile.py -e expName
-*   **Week 3:**
-*   **Week 4:**
-*   **Week 5:**
+
+<p align="justify"><b>Results:</b>
+
+| Neuronal Network          | Dataset     | F1 training        | F1 test       |
+| ------------------------- |:-----------:|:------------------:|:-------------:|
+|YOLO                       | TT100K      |             | 0.4292        |
+|YOLO                       | Udacity     |             | 0.1652        |
+|RETINANET                  | TT100K      |              | 0.1001        |
+|RETINANET                  | Udacity     |              | 0.1001        |
+
+</p>
