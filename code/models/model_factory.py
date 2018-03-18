@@ -52,9 +52,9 @@ class Model_Factory():
                         cf.target_size_train[1])
             # TODO detection : check model, different detection nets may have different losses and metrics
             if cf.model_name == 'retinanet':
-                loss = RetinaLoss(in_shape, cf.dataset.n_classes, cf.dataset.priors)
-                metrics = [RetinaMetrics(in_shape, cf.dataset.n_classes, cf.dataset.priors, name='avg_recall'),
-                           RetinaMetrics(in_shape, cf.dataset.n_classes, cf.dataset.priors, name='avg_iou')]
+                loss = YOLOLoss(in_shape, cf.dataset.n_classes, cf.dataset.priors)
+                metrics = [YOLOMetrics(in_shape, cf.dataset.n_classes, cf.dataset.priors, name='avg_recall'),
+                           YOLOMetrics(in_shape, cf.dataset.n_classes, cf.dataset.priors, name='avg_iou')]
             else:
                 loss = YOLOLoss(in_shape, cf.dataset.n_classes, cf.dataset.priors)
                 metrics = [YOLOMetrics(in_shape, cf.dataset.n_classes, cf.dataset.priors,name='avg_recall'),YOLOMetrics(in_shape, cf.dataset.n_classes, cf.dataset.priors,name='avg_iou')]
