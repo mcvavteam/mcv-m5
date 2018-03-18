@@ -1,6 +1,6 @@
 import keras
 from keras import backend as K, Input
-from keras.layers import Conv2D, Concatenate, Reshape
+from keras.layers import Conv2D, Concatenate, Reshape, UpSampling2D
 
 from keras.models import Model
 import tensorflow as tf
@@ -44,17 +44,43 @@ def build_retinanet(img_shape=(3, 416, 416), n_classes=80, n_priors=5,
     # class_subnet_reshape = [Reshape((10,10,n_classes*n_priors), name='class_reshape')(out) for out in class_subnet]
     # class_subnet_reshape = [keras.layers.UpSampling2D(size=(10, 1), name='class_upsample')(out) for out in class_subnet]
 
-    class_subnet = Concatenate(axis=3, name='class_subnet_outputs')(class_subnet_reshape)
-    class_subnet = Conv2D(filters=n_priors*n_classes, kernel_size=(1, 1), strides=(1, 1))(class_subnet)
+    class_subnet0 = Conv2D(filters=n_priors*n_classes, kernel_size=(1, 1), strides=(4, 4))(class_subnet[0])
+    class_subnet1 = Conv2D(filters=n_priors*n_classes, kernel_size=(1, 1), strides=(2, 2))(class_subnet[1])
+    class_subnet2 = class_subnet[2]
+    class_subnet3 = UpSampling2D(size=(2, 2), name='class_upsample')(class_subnet[3])
 
-    # class_subnet = class_subnet_reshape[2]
+    # class_subnet_reshape = []
+    # for out in class_subnet:
+    #     out_shape = out.shape[2]._value
+    #     if out_shape >= 10:
+    #         class_subnet_reshape.append(Conv2D(filters=n_priors * (4 + 1), kernel_size=(1, 1), strides=(out_shape / 10, out_shape / 10))(out))
+    #     else:
+    #         class_subnet_reshape.append(out)
+
+    class_subnet = [class_subnet0,class_subnet1,class_subnet2,class_subnet3]
+    class_subnet = Concatenate(axis=3, name='class_subnet_outputs')(class_subnet)
+    class_subnet = Conv2D(filters=n_priors*n_classes, kernel_size=(1, 1), strides=(1, 1))(class_subnet)
 
     # bbox_subnet
     bbox_subnet = [bbox_subnet_model(f) for f in features]
     # bbox_subnet_reshape = [Reshape((10,10, (4+1)*n_priors), name='bbox_reshape')(out) for out in bbox_subnet]
     # bbox_subnet_reshape = [keras.layers.UpSampling2D(size=(10, 1), name='bbox_upsample')(out) for out in bbox_subnet]
 
-    bbox_subnet = Concatenate(axis=3, name='bbox_subnet_outputs')(bbox_subnet_reshape)
+    bbox_subnet0 = Conv2D(filters=n_priors * (4 + 1), kernel_size=(1, 1), strides=(4, 4))(bbox_subnet[0])
+    bbox_subnet1 = Conv2D(filters=n_priors * (4 + 1), kernel_size=(1, 1), strides=(2, 2))(bbox_subnet[1])
+    bbox_subnet2 = bbox_subnet[2]
+    bbox_subnet3 = UpSampling2D(size=(2, 2), name='bbox_upsample')(bbox_subnet[3])
+
+    # bbox_subnet_reshape = []
+    # for out in bbox_subnet:
+    #     out_shape = out.shape[2]
+    #     if out_shape >= 10:
+    #         bbox_subnet_reshape += Conv2D(filters=n_priors*(4 + 1), kernel_size=(1, 1), strides=(out_shape/10, out_shape/10))(out)
+    #     else:
+    #         bbox_subnet_reshape += out
+
+    bbox_subnet = [bbox_subnet0, bbox_subnet1, bbox_subnet2, bbox_subnet3]
+    bbox_subnet = Concatenate(axis=3, name='bbox_subnet_outputs')(bbox_subnet)
     bbox_subnet = Conv2D(filters=n_priors*(4+1), kernel_size=(1, 1), strides=(1, 1))(bbox_subnet)
 
     # bbox_subnet = bbox_subnet_reshape[2]
@@ -64,7 +90,7 @@ def build_retinanet(img_shape=(3, 416, 416), n_classes=80, n_priors=5,
     # n_priors: anchors, 4: offsets, n_classes: probability for each class, 1: confidence of having an object
     output = Concatenate(axis=3)([class_subnet, bbox_subnet])
 
-    K.set_image_dim_ordering('tf')
+    K.set_image_dim_ordering('th')
 
     output = keras.layers.Permute((3, 2, 1))(output)
 
