@@ -33,7 +33,7 @@ python train.py -c config/configFile.py -e expName
 
 ## Object Recognition (Week 2)
 
-<p align="justify"><b>Code explanation:</b>
+<p align="justify"><b>Overview:</b>
 We have implemented the winner architecture of ILSVRC 2017 Classification Competition, the Squeeze-Excitation ResNet. 
 The squeeze-excitation block consists on an squeeze step based on a Global Average Pooling over the output of the residual block and afterwards, an excitation step based on obtaining some weights for each output channel of the residual block and multiplying the channels by those weights. To obtain those weights, two fully-connected layers are used. The first one performs a dimensionality reduction over the number of channels C and uses ReLU activation. The reduction has been performed with a reduction ratio of r=16. The second FC layer  recovers the original dimensionality C and uses sigmoid activation for obtaining a weight in range [0,1].
 </p>
@@ -79,10 +79,10 @@ The weights, experiments' info and the TensorBoard logs are available [here](htt
 
 ## Object Detection (Weeks 3-4)
 
-<p align="justify"><b>Code explanation:</b>
+<p align="justify"><b>Overview:</b>
 We used for object detection the network YOLO and we implemented the RetinaNet based on the paper Focal Loss for Dense Object Detection.<br/>
 YOLO or You Only Look Once consists on dividing the input image into an S x S grid. If the center of an object falls into a grid cell, that grid cell is responsible for detecting that object. Each grid cell predicts B bounding boxes and confidence scores for those boxes, reflecting how confidence and accurate the model is to that prediction.<br/>
-On the other hand, the RetinaNet consists on ....
+On the other hand, the RetinaNet is a one stage detector network that matches the state-of-the-art results of two-stage detectors.The authors of this network have identified that the cause of obtaining lower accuracies comes from class imbalance in the datasets. So, they propose a dynamically scaled cross-entropy loss that down-weights the correctly classified examples and helps focusing on difficult miss-classified samples.
 
 </p>
 
@@ -95,8 +95,7 @@ On the other hand, the RetinaNet consists on ....
 
 
 ### Weights of the model
-The weights, experiments' info and the TensorBoard logs are available [here](https://drive.google.com/open?id=14fVv3XZBtugphYFxJ4Sr6zqHHujvRRaz).
-
+The weights, experiments' info and the TensorBoard logs are available [here](https://drive.google.com/open?id=14fVv3XZBtugphYFxJ4Sr6zqHHujvRRaz)
 
 
 <b>Completeness of the goals:</b>
@@ -108,20 +107,19 @@ The weights, experiments' info and the TensorBoard logs are available [here](htt
 - [x] b) Read two papers cited in the object detection networks section.<br>  
 	- [x] YOLO.<br>  
 	- [x] Another paper.<br> 
-- [x] c) Implement a new network.<br> 
+- [x] c) Implement a new network (c.2 - Develop the network entirely by yourself).<br> 
 - [x] d) Train the networks for another dataset (Udacity).<br>
-- [x] e) Try to boost the performance of your network.<br>
 - [x] f) Report.<br>
 
 
 
 <p align="justify"><b>Results:</b>
 
-| Neuronal Network          | Dataset     | F1 training        | F1 test       |
-| ------------------------- |:-----------:|:------------------:|:-------------:|
-|YOLO                       | TT100K      |             | 0.4292        |
-|YOLO                       | Udacity     |             | 0.1652        |
-|RETINANET                  | TT100K      |              | 0.1001        |
-|RETINANET                  | Udacity     |              | 0.1001        |
-
+| Neuronal Network | Dataset     |  Overall Precision | Overall Recall| Overall F1 | Average Recall| Average IoU |FPS|
+| ---------------- |:-----------:|:------------------:|:-------------:|:----------:|:-------------:|:-----------:|:-:|
+|YOLO v2           | TT100K      |      
+|YOLO v2           | Udacity     |
+|YOLO v2           | Udacity (Data Aug,40 epochs) |
+|RetinaNet         | TT100K      |
+|RetinaNet         | Udacity     |
 </p>
