@@ -83,7 +83,7 @@ class Model_Factory():
     def make(self, cf, optimizer=None):
         if cf.model_name in ['lenet', 'alexNet', 'vgg16', 'vgg19', 'resnet50',
                              'InceptionV3', 'fcn8', 'unet', 'segnet',
-                             'segnet_basic', 'resnetFCN', 'yolo', 'tiny-yolo','se_resnet50','retinanet','retinanet_git']:
+                             'segnet_basic', 'resnetFCN', 'yolo', 'tiny-yolo','se_resnet50','retinanet']:
             if optimizer is None:
                 raise ValueError('optimizer can not be None')
 
@@ -170,11 +170,6 @@ class Model_Factory():
                                load_pretrained=cf.load_imageNet,
                                freeze_layers_from=cf.freeze_layers_from, tiny=True)
         elif cf.model_name == 'retinanet':
-            model = build_retinanet(in_shape, cf.dataset.n_classes,
-                               cf.dataset.n_priors,
-                               load_pretrained=cf.load_imageNet,
-                               freeze_layers_from=cf.freeze_layers_from)
-        elif cf.model_name == 'retinanet_git':
             model = build_retinanet(in_shape, cf.dataset.n_classes,
                                cf.dataset.n_priors,
                                load_pretrained=cf.load_imageNet,
