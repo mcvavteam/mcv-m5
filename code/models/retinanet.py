@@ -6,9 +6,6 @@ from keras.models import Model
 import tensorflow as tf
 import keras_resnet
 import keras_resnet.models
-import numpy as np
-
-
 
 def build_retinanet(img_shape=(3, 416, 416), n_classes=80, n_priors=5,
                load_pretrained=False,freeze_layers_from='base_model'):
@@ -21,7 +18,6 @@ def build_retinanet(img_shape=(3, 416, 416), n_classes=80, n_priors=5,
     K.set_image_dim_ordering('th')
 
     backbone_net = keras_resnet.models.ResNet50(inputs, include_top=False, freeze_bn=True)
-
     _, C3, C4, C5 = backbone_net.outputs  # we ignore C2
 
     K.set_image_dim_ordering('tf')
@@ -34,28 +30,17 @@ def build_retinanet(img_shape=(3, 416, 416), n_classes=80, n_priors=5,
     features = create_pyramid_features(C3, C4, C5)
 
     # create regression and classification submodels
-    bbox_subnet_model = default_regression_model(n_priors)
-    class_subnet_model = default_classification_model(n_classes, n_priors)
+    bbox_subnet_model = regression_submodel(n_priors)
+    class_subnet_model = classification_submodel(n_classes, n_priors)
 
     #Concatenation of pyramid levels
     # class_subnet
     class_subnet = [class_subnet_model(f) for f in features]
-    # class_subnet_reshape = [tf.reshape(out, (None,10,10,n_classes*n_priors), name='class_reshape') for out in class_subnet]
-    # class_subnet_reshape = [Reshape((10,10,n_classes*n_priors), name='class_reshape')(out) for out in class_subnet]
-    # class_subnet_reshape = [keras.layers.UpSampling2D(size=(10, 1), name='class_upsample')(out) for out in class_subnet]
 
     class_subnet0 = Conv2D(filters=n_priors*n_classes, kernel_size=(1, 1), strides=(4, 4))(class_subnet[0])
     class_subnet1 = Conv2D(filters=n_priors*n_classes, kernel_size=(1, 1), strides=(2, 2))(class_subnet[1])
     class_subnet2 = class_subnet[2]
     class_subnet3 = UpSampling2D(size=(2, 2), name='class_upsample')(class_subnet[3])
-
-    # class_subnet_reshape = []
-    # for out in class_subnet:
-    #     out_shape = out.shape[2]._value
-    #     if out_shape >= 10:
-    #         class_subnet_reshape.append(Conv2D(filters=n_priors * (4 + 1), kernel_size=(1, 1), strides=(out_shape / 10, out_shape / 10))(out))
-    #     else:
-    #         class_subnet_reshape.append(out)
 
     class_subnet = [class_subnet0,class_subnet1,class_subnet2,class_subnet3]
     class_subnet = Concatenate(axis=3, name='class_subnet_outputs')(class_subnet)
@@ -63,31 +48,21 @@ def build_retinanet(img_shape=(3, 416, 416), n_classes=80, n_priors=5,
 
     # bbox_subnet
     bbox_subnet = [bbox_subnet_model(f) for f in features]
-    # bbox_subnet_reshape = [Reshape((10,10, (4+1)*n_priors), name='bbox_reshape')(out) for out in bbox_subnet]
-    # bbox_subnet_reshape = [keras.layers.UpSampling2D(size=(10, 1), name='bbox_upsample')(out) for out in bbox_subnet]
 
     bbox_subnet0 = Conv2D(filters=n_priors * (4 + 1), kernel_size=(1, 1), strides=(4, 4))(bbox_subnet[0])
     bbox_subnet1 = Conv2D(filters=n_priors * (4 + 1), kernel_size=(1, 1), strides=(2, 2))(bbox_subnet[1])
     bbox_subnet2 = bbox_subnet[2]
     bbox_subnet3 = UpSampling2D(size=(2, 2), name='bbox_upsample')(bbox_subnet[3])
 
-    # bbox_subnet_reshape = []
-    # for out in bbox_subnet:
-    #     out_shape = out.shape[2]
-    #     if out_shape >= 10:
-    #         bbox_subnet_reshape += Conv2D(filters=n_priors*(4 + 1), kernel_size=(1, 1), strides=(out_shape/10, out_shape/10))(out)
-    #     else:
-    #         bbox_subnet_reshape += out
-
     bbox_subnet = [bbox_subnet0, bbox_subnet1, bbox_subnet2, bbox_subnet3]
     bbox_subnet = Concatenate(axis=3, name='bbox_subnet_outputs')(bbox_subnet)
     bbox_subnet = Conv2D(filters=n_priors*(4+1), kernel_size=(1, 1), strides=(1, 1))(bbox_subnet)
 
-    # bbox_subnet = bbox_subnet_reshape[2]
-
-
     # Output
-    # n_priors: anchors, 4: offsets, n_classes: probability for each class, 1: confidence of having an object
+    #  - n_priors: anchors
+    #  - 4: offsets
+    #  - n_classes: probability for each class
+    #  - 1: confidence of having an object
     output = Concatenate(axis=3)([class_subnet, bbox_subnet])
 
     K.set_image_dim_ordering('th')
@@ -98,10 +73,7 @@ def build_retinanet(img_shape=(3, 416, 416), n_classes=80, n_priors=5,
 
     return model
 
-    # class_subnet = Conv2D(filters=n_priors*(n_classes),kernel_size=(32,32),strides=(32,32))(pyramid[1])
-    # bbox_subnet = Conv2D(filters=n_priors*(4+1),kernel_size=(32,32),strides=(32,32))(pyramid[0])
-
-def default_classification_model(num_classes, num_anchors, pyramid_feature_size=256, prior_probability=0.01, classification_feature_size=256, name='classification_submodel'):
+def classification_submodel(num_classes, num_anchors, pyramid_feature_size=256, classification_feature_size=256, name='classification_submodel'):
     options = {
         'kernel_size' : 3,
         'strides'     : 1,
@@ -123,22 +95,15 @@ def default_classification_model(num_classes, num_anchors, pyramid_feature_size=
     outputs = keras.layers.Conv2D(
         filters=num_classes * num_anchors,
         kernel_initializer=keras.initializers.zeros(),
-        # bias_initializer=initializers.PriorProbability(probability=prior_probability),
         name='pyramid_classification',
         **options
     )(outputs)
 
-    # reshape output and apply sigmoid
-    # outputs = keras.layers.Reshape((10, 10, num_classes*num_anchors), name='pyramid_classification_reshape')(outputs)
-    # outputs = keras.layers.Reshape((-1, num_classes * num_anchors), name='pyramid_classification_reshape')(outputs)
     outputs = keras.layers.Activation('sigmoid', name='pyramid_classification_sigmoid')(outputs)
 
     return keras.models.Model(inputs=inputs, outputs=outputs, name=name)
 
-def default_regression_model(num_anchors, pyramid_feature_size=256, regression_feature_size=256, name='regression_submodel'):
-    # All new conv layers except the final one in the
-    # RetinaNet (classification) subnets are initialized
-    # with bias b = 0 and a Gaussian weight fill with stddev = 0.01.
+def regression_submodel(num_anchors, pyramid_feature_size=256, regression_feature_size=256, name='regression_submodel'):
     options = {
         'kernel_size'        : 3,
         'strides'            : 1,
@@ -158,8 +123,6 @@ def default_regression_model(num_anchors, pyramid_feature_size=256, regression_f
         )(outputs)
 
     outputs = keras.layers.Conv2D(num_anchors*(4+1), name='pyramid_regression', **options)(outputs)
-    # outputs = keras.layers.Reshape((10, 10, (4+1)), name='pyramid_regression_reshape')(outputs)
-    # outputs = keras.layers.Reshape((-1, num_anchors*(4+1)), name='pyramid_regression_reshape')(outputs)
 
     return keras.models.Model(inputs=inputs, outputs=outputs, name=name)
 
