@@ -48,8 +48,8 @@ The squeeze-excitation block consists on an squeeze step based on a Global Avera
 </p>
 
 <b>Contributions to the code:</b>
-+ `code/models/resnet.py`. SEResNet implementation.  
-+ `code/config/*`. Configuration files for image classification 
++ `code/models/se_resnet50.py` - Squeeze and Excitation ResNet implementation.  
++ `code/config/*` - Configuration files for image classification 
 
 <b>Completeness of the goals:</b>
 
@@ -95,9 +95,9 @@ On the other hand, the RetinaNet is a one stage detector network that matches th
 </p>
 
 <b>Contributions to the code:</b>
-+ `code/models/retinanet.py`. RetinaNet implementation.  
-+ `code/metrics/retina_metrics.py`. Focal Loss and metrics implementations for RetinaNet.  
-+ `code/config/*`. Configuration files for image detection 
++ `code/models/retinanet.py` - RetinaNet implementation.  
++ `code/metrics/retina_metrics.py` - Focal Loss and metrics implementations for RetinaNet.  
++ `code/config/*` - Configuration files for image detection 
 	
 <b>Completeness of the goals:</b>
 
