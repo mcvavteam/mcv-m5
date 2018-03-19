@@ -22,7 +22,7 @@ debug                        = False           # Use only few images for debugin
 debug_images_train           = 160             # N images for training in debug mode (-1 means all)
 debug_images_valid           = 160             # N images for validation in debug mode (-1 means all)
 debug_images_test            = 160             # N images for testing in debug mode (-1 means all)
-debug_n_epochs               = 2              # N of training epochs in debug mode
+debug_n_epochs               = 2               # N of training epochs in debug mode
 
 # Batch sizes
 batch_size_train             = 16            # Batch size during training
