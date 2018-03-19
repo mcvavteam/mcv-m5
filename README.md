@@ -8,11 +8,10 @@
 - Sebastian Maya Hernández - sebastiancamilo.maya@e-campus.uab.cat
 - Pedro Luis Trigueros Mondéjar - pedroluis.trigueros@e-campus.uab.cat
 
-<p align="justify"><b>Project overview:</b>
-	
+### Project overview
 In this project we focus on scene understanding for autonomous vehicles. Understanding the context of the own vehicle is key for autonomous driving. The project consists of three parts or stages, corresponding to object detection, recognition/classification and semantic segmentation.<br/>
 Furthermore, we aim to learn the basic concepts, techniques, tricks and libraries to develop and evaluate deep neural networks.
-</p>
+
 
 
 ### Documentation
@@ -25,6 +24,8 @@ Furthermore, we aim to learn the basic concepts, techniques, tricks and librarie
 - [You Only Look Once (YOLO)](https://www.overleaf.com/read/fvtfvvwbptsv)
 - [Focal Loss for Dense Object Detection](https://www.overleaf.com/read/xsknbrtmsbgd)
 
+### Weights of the models
+The weights, experiments' info and the TensorBoard logs are available [here](https://drive.google.com/drive/folders/15mccIEOhimkFo_5K3M43Vmu9xT0CEvpC?usp=sharing).
 
 ### Instructions for use code 
 ```
@@ -46,9 +47,9 @@ The squeeze-excitation block consists on an squeeze step based on a Global Avera
 
 </p>
 
-### Weights of the model
-The weights, experiments' info and the TensorBoard logs are available [here](https://drive.google.com/drive/folders/15mccIEOhimkFo_5K3M43Vmu9xT0CEvpC?usp=sharing).
-
+<b>Contributions to the code:</b>
++ `code/models/resnet.py`. SEResNet implementation.  
++ `code/config/*`. Configuration files for image classification 
 
 <b>Completeness of the goals:</b>
 
@@ -93,11 +94,11 @@ On the other hand, the RetinaNet is a one stage detector network that matches th
 
 </p>
 
-
-### Weights of the model
-The weights, experiments' info and the TensorBoard logs are available [here](https://drive.google.com/open?id=14fVv3XZBtugphYFxJ4Sr6zqHHujvRRaz)
-
-
+<b>Contributions to the code:</b>
++ `code/models/retinanet.py`. RetinaNet implementation.  
++ `code/metrics/retina_metrics.py`. Focal Loss and metrics implementations for RetinaNet.  
++ `code/config/*`. Configuration files for image detection 
+	
 <b>Completeness of the goals:</b>
 
 - [x] a) Run the provided code.<br> 
@@ -109,7 +110,7 @@ The weights, experiments' info and the TensorBoard logs are available [here](htt
 	- [x] Another paper.<br> 
 - [x] c) Implement a new network (c.2 - Develop the network entirely by yourself).<br> 
 - [x] d) Train the networks for another dataset (Udacity).<br>
-- [x] f) Report.<br>
+- [x] f) Report showing the achieved results.<br>
 
 
 
