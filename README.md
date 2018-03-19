@@ -115,11 +115,11 @@ The weights, experiments' info and the TensorBoard logs are available [here](htt
 
 <p align="justify"><b>Results:</b>
 
-| Neuronal Network | Dataset     |  Overall Precision | Overall Recall| Overall F1 | Average Recall| Average IoU |FPS|
-| ---------------- |:-----------:|:------------------:|:-------------:|:----------:|:-------------:|:-----------:|:-:|
-|YOLO v2           | TT100K      |      
-|YOLO v2           | Udacity     |
-|YOLO v2           | Udacity (Data Aug,40 epochs) |
-|RetinaNet         | TT100K      |
+| Neuronal Network | Dataset     |  Overall Precision | Overall Recall| Overall F1 | Average Recall| Average IoU | FPS	 |
+| ---------------- |:-----------:|:------------------:|:-------------:|:----------:|:-------------:|:-----------:|:-----:|
+|YOLO v2           | TT100K      | 0.6308	      | 0.3253	      | 0.4292	   | 0.9730	   | 0.7588	 | 70.11 |
+|YOLO v2           | Udacity     | 0.1701	      | 0.1606	      | 0.1652	   | 0.5660	   | 0.5213	 | 68.33 |
+|YOLO v2           | Udacity (Data Aug,40 epochs) | 0.1779 | 0.1911   | 0.1843	   | 0.5831	   | 0.5212	 | 67.66 |
+|RetinaNet         | TT100K      | 0.5930	      | 0.0547	      | 0.1205	   | 0.9621	   | 0.7405	 | 69.22 |
 |RetinaNet         | Udacity     |
 </p>
