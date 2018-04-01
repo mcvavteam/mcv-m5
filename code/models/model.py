@@ -224,7 +224,7 @@ class One_Net_Model(Model):
                         (len(imfiles)/(time.time() - start_time)))
     
 
-
+            """
             if self.cf.problem_type == 'segmentation':
                 # Compute Jaccard per class
                 metrics_dict = dict(zip(self.model.metrics_names, test_metrics))
@@ -241,3 +241,4 @@ class One_Net_Model(Model):
                 # Compute jaccard mean
                 jacc_mean = np.nanmean(jacc_percl)
                 print ('   Jaccard mean: {}'.format(jacc_mean))
+            """
