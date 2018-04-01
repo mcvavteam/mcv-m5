@@ -13,7 +13,7 @@ load_pretrained              = False           # Load a pretrained model for doi
 weights_file                 = 'weights.hdf5'  # Training weight file name
 
 # Parameters
-train_model                  = True            # Train the model
+train_model                  = False            # Train the model
 test_model                   = True            # Test the model
 pred_model                   = False           # Predict using the model
 
@@ -50,7 +50,7 @@ weight_decay                 = 0.              # Weight decay or L2 parameter no
 n_epochs                     = 1000            # Number of epochs during training
 
 # Callback save results
-save_results_enabled         = False           # Enable the Callback
+save_results_enabled         = True           # Enable the Callback
 save_results_nsamples        = 5               # Number of samples to save
 save_results_batch_size      = 5               # Size of the batch
 
