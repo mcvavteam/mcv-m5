@@ -6,16 +6,14 @@ from keras import backend as K
 from keras.utils.vis_utils import plot_model
 
 # Classification models
-#from models.lenet import build_lenet
-#from models.alexNet import build_alexNet
 from metrics.retina_metrics import RetinaLoss, RetinaMetrics
+from models.resnetFCN import build_resnetFCN
 from models.retinanet import build_retinanet
 from models.se_resnet50 import build_se_resnet50
 from models.vgg import build_vgg
-#from models.resnet import build_resnet50
-#from models.inceptionV3 import build_inceptionV3
 
 # Detection models
+from models.wide_resnet import build_wide_resnet
 from models.yolo import build_yolo
 
 # Segmentation models
@@ -176,6 +174,10 @@ class Model_Factory():
                                cf.dataset.n_priors,
                                load_pretrained=cf.load_imageNet,
                                freeze_layers_from=cf.freeze_layers_from)
+        elif cf.model_name == 'wideresnet':
+            model = build_wide_resnet(in_shape, cf.dataset.n_classes, cf.weight_decay,
+                               freeze_layers_from=cf.freeze_layers_from,
+                               load_pretrained=cf.load_imageNet)
         else:
             raise ValueError('Unknown model')
 
