@@ -110,6 +110,7 @@ def build_fcn8(img_shape=(416, 608, 3), nclasses=8, l2_reg=0.,
     o_shape = Model(img_input, o).output_shape
     o = Cropping2D(((o_shape[1] - img_shape[0]) / 2, (o_shape[2] - img_shape[1]) / 2), name='crop')(o)
 
+    """
     o_shape = Model(img_input, o).output_shape
 
     outputHeight = o_shape[1]
@@ -117,10 +118,22 @@ def build_fcn8(img_shape=(416, 608, 3), nclasses=8, l2_reg=0.,
 
     o = (Reshape((-1, outputHeight * outputWidth)))(o)
     o = (Permute((2, 1)))(o)
-    o = (Activation('softmax'))(o)
+    """
+
+    # Reshape to vector
+    curlayer_output_shape = Model(inputs=img_input, outputs=o).output_shape
+    if K.image_dim_ordering() == 'tf':
+        outputHeight = curlayer_output_shape[1]
+        outputWidth = curlayer_output_shape[2]
+    else:
+        outputHeight = curlayer_output_shape[2]
+        outputWidth = curlayer_output_shape[3]
+    o = Reshape(target_shape=(outputHeight * outputWidth, nclasses))(o)
+
+    o = Activation('softmax')(o)
     model = Model(img_input, o)
-    model.outputWidth = outputWidth
-    model.outputHeight = outputHeight
+    #model.outputWidth = outputWidth
+    #model.outputHeight = outputHeight
 
     # Freeze some layers
     if freeze_layers_from is not None:

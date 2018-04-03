@@ -13,9 +13,9 @@ load_pretrained              = False           # Load a pretrained model for doi
 weights_file                 = 'weights.hdf5'  # Training weight file name
 
 # Parameters
-train_model                  = False            # Train the model
+train_model                  = True            # Train the model
 test_model                   = True            # Test the model
-pred_model                   = False           # Predict using the model
+pred_model                   = True           # Predict using the model
 
 # Debug
 debug                        = False           # Use only few images for debuging
