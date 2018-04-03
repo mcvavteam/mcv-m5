@@ -4,8 +4,8 @@ from keras.layers import Conv2D, Concatenate, Reshape, UpSampling2D
 
 from keras.models import Model
 import tensorflow as tf
-import keras_resnet
-import keras_resnet.models
+#import keras_resnet
+#import keras_resnet.models
 
 def build_retinanet(img_shape=(3, 416, 416), n_classes=80, n_priors=5,
                load_pretrained=False,freeze_layers_from='base_model'):
