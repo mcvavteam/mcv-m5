@@ -58,7 +58,7 @@ save_results_batch_size      = 5               # Size of the batch
 earlyStopping_enabled        = True            # Enable the Callback
 earlyStopping_monitor        = 'val_jaccard_coef'   # Metric to monitor
 earlyStopping_mode           = 'max'           # Mode ['max' | 'min']
-earlyStopping_patience       = 100             # Max patience for the early stopping
+earlyStopping_patience       = 30             # Max patience for the early stopping
 earlyStopping_verbose        = 0               # Verbosity of the early stopping
 
 # Callback model check point
