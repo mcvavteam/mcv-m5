@@ -6,14 +6,15 @@ from keras.engine.topology import get_source_inputs
 from keras.applications import ResNet50
 from keras.models import *
 from keras.layers import *
+import keras.backend as K
 
 
 # Paper: https://arxiv.org/abs/1611.10080
 # Original caffe code: https://github.com/itijyou/ademxapp
 
-def build_wide_resnet(img_shape=(416, 608, 3), nclasses=8, l2_reg=0.,
-               init='glorot_uniform', path_weights=None,
-               load_pretrained=False, freeze_layers_from=None):
+def build_wide_resnet(img_shape=(360, 480, 3), nclasses=8, l2_reg=0.,
+                      init='glorot_uniform', path_weights=None,
+                      load_pretrained=False, freeze_layers_from=None):
     # Decide if load pretrained weights from imagenet
     if load_pretrained:
         # weights = 'imagenet'
@@ -21,273 +22,269 @@ def build_wide_resnet(img_shape=(416, 608, 3), nclasses=8, l2_reg=0.,
         exit(-1)
     else:
         weights = None
-    ResNet50()
-    # This is the model we will train
-    model = WideResNet(weights=weights, input_tensor=None, input_shape=img_shape, classes=nclasses)
 
-    # Freeze some layers
-    if freeze_layers_from is not None:
-        freeze_layers(model, freeze_layers_from)
+    # Create the first convolutional layer
+    input = Input(shape=img_shape)
+    x = Conv2D(filters=64, kernel_size=(3, 3), use_bias=False,
+               padding='same', kernel_regularizer=regularizers.l2(l2_reg), name="conv1a")(input)
+
+    # Implementing Model A of the paper
+    # 224-0-3-3-6-3-1-1
+    # Block 2 (3 times)
+    block_filters = [128, 128]
+    x = block(x, filters_vector=block_filters,
+              strides=1,
+              dilations_vector=[1, 1],
+              name='block2_1')
+    x = block(x, filters_vector=block_filters,
+              strides=1,
+              dilations_vector=[1, 1],
+              name='block2_2')
+    x = block(x, filters_vector=block_filters,
+              strides=2,
+              dilations_vector=[1, 1],
+              name='block2_3')
+
+    # Block 3 (3 times)
+    block_filters = [256, 256]
+    x = block(x, filters_vector=block_filters,
+              strides=1,
+              dilations_vector=[1, 1],
+              name='block3_1')
+    x = block(x, filters_vector=block_filters,
+              strides=1,
+              dilations_vector=[1, 1],
+              name='block3_2')
+    x = block(x, filters_vector=block_filters,
+              strides=2,
+              dilations_vector=[1, 1],
+              name='block3_3')
+
+    # Block 4 (6 times)
+    block_filters = [512, 512]
+    x = block(x, filters_vector=block_filters,
+              strides=1,
+              dilations_vector=[1, 1],
+              name='block4_1')
+    x = block(x, filters_vector=block_filters,
+              strides=1,
+              dilations_vector=[1, 1],
+              name='block4_2')
+    x = block(x, filters_vector=block_filters,
+              strides=1,
+              dilations_vector=[1, 1],
+              name='block4_3')
+    x = block(x, filters_vector=block_filters,
+              strides=1,
+              dilations_vector=[1, 1],
+              name='block4_4')
+    x = block(x, filters_vector=block_filters,
+              strides=1,
+              dilations_vector=[1, 1],
+              name='block4_5')
+    x = block(x, filters_vector=block_filters,
+              strides=2,
+              dilations_vector=[1, 1],
+              name='block4_6')
+
+    # Block 5 (3 times)
+    block_filters = [512, 1024]
+    x = block(x, filters_vector=block_filters,
+              strides=1,
+              dilations_vector=[2, 2],
+              name='block5_1')
+    x = block(x, filters_vector=block_filters,
+              strides=1,
+              dilations_vector=[2, 2],
+              name='block5_2')
+    x = block(x, filters_vector=block_filters,
+              strides=1,
+              dilations_vector=[2, 2],
+              name='block5_3')
+
+    # Block 6 (1 time)
+    block_filters = [512, 1024, 2048]
+    block_dropout = [0, 0, .3]
+    x = bottleneck_block(x, filters_vector=block_filters,
+                         strides=1,
+                         dilations_vector=[4, 4, 4],
+                         dropout_vector=block_dropout,
+                         name='block6_1')
+
+    # Block 7 (1 time)
+    block_filters = [1024, 2048, 4098]
+    block_dropout = [0, .3, .5]
+    x = bottleneck_block(x, filters_vector=block_filters,
+                         strides=1,
+                         dilations_vector=[4, 4, 4],
+                         dropout_vector=block_dropout,
+                         name='block7_1')
+
+    # Classifier (2 Conv2D based)
+    x = conv_stage(x, filters=512,
+                   kernel_size=(3, 3),
+                   strides=(1, 1),
+                   dilation_rate=(12, 12),
+                   dropout=0,
+                   name='classifier_hidden_cs')
+    x = conv_stage(x, filters=nclasses,
+                   kernel_size=(3, 3),
+                   strides=(1, 1),
+                   dilation_rate=(12, 12),
+                   dropout=0,
+                   name='classifier_classif_cs')
+
+    # Upsampling
+    x = transp_conv_stage(x, filters=nclasses,
+                          kernel_size=(16, 16),
+                          strides=(8, 8),
+                          name='upsampling_deconv')
+
+    # Crop the borders to fit original size
+    curlayer_output_shape = Model(inputs=input, outputs=x).output_shape
+    if K.image_dim_ordering() == 'tf':
+        curlayer_output_height = curlayer_output_shape[1]
+        curlayer_output_width = curlayer_output_shape[2]
+    else:
+        curlayer_output_height = curlayer_output_shape[2]
+        curlayer_output_width = curlayer_output_shape[3]
+
+    x = Cropping2D(cropping=((curlayer_output_height - img_shape[0]) / 2,
+                             (curlayer_output_width - img_shape[1]) / 2))(x)
+
+    # Reshape to vector
+    curlayer_output_shape = Model(inputs=input, outputs=x).output_shape
+    if K.image_dim_ordering() == 'tf':
+        curlayer_output_height = curlayer_output_shape[1]
+        curlayer_output_width = curlayer_output_shape[2]
+    else:
+        curlayer_output_height = curlayer_output_shape[2]
+        curlayer_output_width = curlayer_output_shape[3]
+    x = Reshape(target_shape=(curlayer_output_height*curlayer_output_width, nclasses))(x)
+
+    # Apply softmax
+    out = Activation('softmax')(x)
+
+
+    model = Model(inputs=input, outputs=out)
+    model.summary()
+    # TODO Freeze some layers
+    #if freeze_layers_from is not None:
+    #    freeze_layers(model, freeze_layers_from)
 
     return model
 
 
-def identity_block(input_tensor, kernel_size, filters, stage, block):
-    """The identity block is the block that has no conv layer at shortcut.
+def block(input_tensor, filters_vector, strides, dilations_vector, dropout_vector=(0, 0), l2_reg=0, name=''):
+    if len(filters_vector) != 2:
+        raise ValueError('filters_vector not of length 2')
+    if len(dilations_vector) != 2:
+        raise ValueError('dilations_vector not of length 2')
+    if len(dropout_vector) != 2:
+        raise ValueError('dropout_vector not of length 2')
 
-    # Arguments
-        input_tensor: input tensor
-        kernel_size: default 3, the kernel size of middle conv layer at main path
-        filters: list of integers, the filters of 3 conv layer at main path
-        stage: integer, current stage label, used for generating layer names
-        block: 'a','b'..., current block label, used for generating layer names
+    x = conv_stage(input_tensor, filters=filters_vector[0],
+                   kernel_size=(3, 3),
+                   strides=strides,
+                   dilation_rate=dilations_vector[0],
+                   dropout=dropout_vector[0],
+                   name=name + '_cs0')
+    x = conv_stage(x, filters=filters_vector[1],
+                   kernel_size=(3, 3),
+                   dilation_rate=dilations_vector[1],
+                   dropout=dropout_vector[1],
+                   name=name + '_cs1')
 
-    # Returns
-        Output tensor for the block.
-    """
-    filters1, filters2, filters3 = filters
-    if K.image_data_format() == 'channels_last':
-        bn_axis = 3
+    dim_match = input_tensor.shape[3] == filters_vector[-1] and (strides == (1, 1) or strides == 1)
+    if dim_match:
+        x = layers.add([x, input_tensor])
     else:
-        bn_axis = 1
-    conv_name_base = 'res' + str(stage) + block + '_branch'
-    bn_name_base = 'bn' + str(stage) + block + '_branch'
-
-    x = Conv2D(filters1, (1, 1), name=conv_name_base + '2a')(input_tensor)
-    x = BatchNormalization(axis=bn_axis, name=bn_name_base + '2a')(x)
-    x = Activation('relu')(x)
-
-    x = Conv2D(filters2, kernel_size,
-               padding='same', name=conv_name_base + '2b')(x)
-    x = BatchNormalization(axis=bn_axis, name=bn_name_base + '2b')(x)
-    x = Activation('relu')(x)
-
-    x = Conv2D(filters3, (1, 1), name=conv_name_base + '2c')(x)
-    x = BatchNormalization(axis=bn_axis, name=bn_name_base + '2c')(x)
-
-    x = layers.add([x, input_tensor])
-    x = Activation('relu')(x)
+        x = BatchNormalization(axis=1 if K.image_dim_ordering() == 'channels_first' else 3, name=name + '_shortcut_bn')(
+            x)
+        x = Activation('relu', name=name + '_shortcut_relu')(x)
+        shortcut = Conv2D(filters_vector[-1], (1, 1), strides=strides,
+                          name=name + '_shortcut_conv')(input_tensor)
+        x = layers.add([x, shortcut])
     return x
 
 
-def conv_block(input_tensor, kernel_size, filters, stage, block, strides=(2, 2)):
-    """A block that has a conv layer at shortcut.
+def bottleneck_block(input_tensor, filters_vector, strides, dilations_vector, dropout_vector=(0, 0, 0), l2_reg=0,
+                     name=''):
+    if len(filters_vector) != 3:
+        raise ValueError('filters_vector not of length 3')
+    if len(dilations_vector) != 3:
+        raise ValueError('dilations_vector not of length 3')
+    if len(dropout_vector) != 3:
+        raise ValueError('dropout_vector not of length 3')
 
-    # Arguments
-        input_tensor: input tensor
-        kernel_size: default 3, the kernel size of middle conv layer at main path
-        filters: list of integers, the filters of 3 conv layer at main path
-        stage: integer, current stage label, used for generating layer names
-        block: 'a','b'..., current block label, used for generating layer names
+    x = conv_stage(input_tensor, filters=filters_vector[0],
+                   kernel_size=(1, 1),
+                   strides=strides,
+                   dilation_rate=dilations_vector[0],
+                   dropout=dropout_vector[0],
+                   name=name + '_cs0')
+    x = conv_stage(x, filters=filters_vector[1],
+                   kernel_size=(3, 3),
+                   dilation_rate=dilations_vector[1],
+                   dropout=dropout_vector[1],
+                   name=name + '_cs1')
+    x = conv_stage(x, filters=filters_vector[2],
+                   kernel_size=(1, 1),
+                   dilation_rate=dilations_vector[2],
+                   dropout=dropout_vector[2],
+                   name=name + '_cs2')
 
-    # Returns
-        Output tensor for the block.
-
-    Note that from stage 3, the first conv layer at main path is with strides=(2,2)
-    And the shortcut should have strides=(2,2) as well
-    """
-    filters1, filters2, filters3 = filters
-    if K.image_data_format() == 'channels_last':
-        bn_axis = 3
+    dim_match = input_tensor.shape[3] == filters_vector[-1] and (strides == (1, 1) or strides == 1)
+    if dim_match:
+        x = layers.add([x, input_tensor])
     else:
-        bn_axis = 1
-    conv_name_base = 'res' + str(stage) + block + '_branch'
-    bn_name_base = 'bn' + str(stage) + block + '_branch'
-
-    x = Conv2D(filters1, (1, 1), strides=strides,
-               name=conv_name_base + '2a')(input_tensor)
-    x = BatchNormalization(axis=bn_axis, name=bn_name_base + '2a')(x)
-    x = Activation('relu')(x)
-
-    x = Conv2D(filters2, kernel_size, padding='same',
-               name=conv_name_base + '2b')(x)
-    x = BatchNormalization(axis=bn_axis, name=bn_name_base + '2b')(x)
-    x = Activation('relu')(x)
-
-    x = Conv2D(filters3, (1, 1), name=conv_name_base + '2c')(x)
-    x = BatchNormalization(axis=bn_axis, name=bn_name_base + '2c')(x)
-
-    shortcut = Conv2D(filters3, (1, 1), strides=strides,
-                      name=conv_name_base + '1')(input_tensor)
-    shortcut = BatchNormalization(axis=bn_axis, name=bn_name_base + '1')(shortcut)
-
-    x = layers.add([x, shortcut])
-    x = Activation('relu')(x)
+        x = BatchNormalization(axis=1 if K.image_dim_ordering() == 'channels_first' else 3, name=name + '_shortcut_bn')(
+            x)
+        x = Activation('relu', name=name + '_shortcut_relu')(x)
+        shortcut = Conv2D(filters_vector[-1], (1, 1), strides=strides,
+                          name=name + '_shortcut_conv')(input_tensor)
+        x = layers.add([x, shortcut])
     return x
 
-def WideResNet(include_top=True, weights=None,
-               input_tensor=None, input_shape=None,
-               pooling=None,
-               classes=1000):
-    """Instantiates the WideResNet architecture.
 
-    Optionally loads weights pre-trained
-    on ImageNet. Note that when using TensorFlow,
-    for best performance you should set
-    `image_data_format='channels_last'` in your Keras config
-    at ~/.keras/keras.json.
+def conv_stage(x, filters, kernel_size, strides=(1, 1), dilation_rate=(1, 1), dropout=0, l2_reg=0, name=''):
+    x = BatchNormalization(axis=1 if K.image_dim_ordering() == 'channels_first' else 3, name=name + '_bn')(x)
+    x = Activation('relu', name=name + '_relu')(x)
+    x = Conv2D(filters=filters,
+               kernel_size=kernel_size,
+               strides=strides,
+               padding='same',
+               dilation_rate=dilation_rate,
+               use_bias=False,
+               kernel_regularizer=regularizers.l2(l2_reg),
+               name=name + '_conv')(x)
+    if dropout > 0:
+        x = Dropout(rate=dropout)(x)
+    return x
 
-    The model and the weights are compatible with both
-    TensorFlow and Theano. The data format
-    convention used by the model is the one
-    specified in your Keras config file.
 
-    # Arguments
-        include_top: whether to include the fully-connected
-            layer at the top of the network.
-        weights: one of `None` (random initialization),
-              'imagenet' (pre-training on ImageNet),
-              or the path to the weights file to be loaded.
-        input_tensor: optional Keras tensor (i.e. output of `layers.Input()`)
-            to use as image input for the model.
-        input_shape: optional shape tuple, only to be specified
-            if `include_top` is False (otherwise the input shape
-            has to be `(224, 224, 3)` (with `channels_last` data format)
-            or `(3, 224, 224)` (with `channels_first` data format).
-            It should have exactly 3 inputs channels,
-            and width and height should be no smaller than 197.
-            E.g. `(200, 200, 3)` would be one valid value.
-        pooling: Optional pooling mode for feature extraction
-            when `include_top` is `False`.
-            - `None` means that the output of the model will be
-                the 4D tensor output of the
-                last convolutional layer.
-            - `avg` means that global average pooling
-                will be applied to the output of the
-                last convolutional layer, and thus
-                the output of the model will be a 2D tensor.
-            - `max` means that global max pooling will
-                be applied.
-        classes: optional number of classes to classify images
-            into, only to be specified if `include_top` is True, and
-            if no `weights` argument is specified.
+def transp_conv_stage(x, filters, kernel_size, strides=(1, 1), dilation_rate=(1, 1), dropout=0, l2_reg=0, name=''):
+    x = BatchNormalization(axis=1 if K.image_dim_ordering() == 'channels_first' else 3, name=name + '_bn')(x)
+    x = Activation('relu', name=name + '_relu')(x)
+    x = Conv2DTranspose(filters=filters,
+                        kernel_size=kernel_size,
+                        strides=strides,
+                        padding='same',
+                        dilation_rate=dilation_rate,
+                        use_bias=False,
+                        kernel_regularizer=regularizers.l2(l2_reg),
+                        name=name + '_conv')(x)
+    if dropout > 0:
+        x = Dropout(rate=dropout)(x)
+    return x
 
-    # Returns
-        A Keras model instance.
-
-    # Raises
-        ValueError: in case of invalid argument for `weights`,
-            or invalid input shape.
-    """
-    if not (weights in {'imagenet', None} or os.path.exists(weights)):
-        raise ValueError('The `weights` argument should be either '
-                         '`None` (random initialization), `imagenet` '
-                         '(pre-training on ImageNet), '
-                         'or the path to the weights file to be loaded.')
-
-    if weights == 'imagenet' and include_top and classes != 1000:
-        raise ValueError('If using `weights` as imagenet with `include_top`'
-                         ' as true, `classes` should be 1000')
-
-    # Determine proper input shape
-    input_shape = _obtain_input_shape(input_shape,
-                                      default_size=224,
-                                      min_size=197,
-                                      data_format=K.image_data_format(),
-                                      require_flatten=include_top,
-                                      weights=weights)
-
-    if input_tensor is None:
-        img_input = Input(shape=input_shape)
-    else:
-        if not K.is_keras_tensor(input_tensor):
-            img_input = Input(tensor=input_tensor, shape=input_shape)
-        else:
-            img_input = input_tensor
-    if K.image_data_format() == 'channels_last':
-        bn_axis = 3
-    else:
-        bn_axis = 1
-
-    x = Conv2D(
-        64, (7, 7), strides=(2, 2), padding='same', name='conv1')(img_input)
-    x = BatchNormalization(axis=bn_axis, name='bn_conv1')(x)
-    x = Activation('relu')(x)
-    x = MaxPooling2D((3, 3), strides=(2, 2))(x)
-
-    x = conv_block(x, 3, [64, 64, 256], stage=2, block='a', strides=(1, 1))
-    x = identity_block(x, 3, [64, 64, 256], stage=2, block='b')
-    x = identity_block(x, 3, [64, 64, 256], stage=2, block='c')
-
-    x = conv_block(x, 3, [128, 128, 512], stage=3, block='a')
-    x = identity_block(x, 3, [128, 128, 512], stage=3, block='b')
-    x = identity_block(x, 3, [128, 128, 512], stage=3, block='c')
-    x = identity_block(x, 3, [128, 128, 512], stage=3, block='d')
-
-    x = conv_block(x, 3, [256, 256, 1024], stage=4, block='a')
-    x = identity_block(x, 3, [256, 256, 1024], stage=4, block='b')
-    x = identity_block(x, 3, [256, 256, 1024], stage=4, block='c')
-    x = identity_block(x, 3, [256, 256, 1024], stage=4, block='d')
-    x = identity_block(x, 3, [256, 256, 1024], stage=4, block='e')
-    x = identity_block(x, 3, [256, 256, 1024], stage=4, block='f')
-
-    x = conv_block(x, 3, [512, 512, 2048], stage=5, block='a')
-    x = identity_block(x, 3, [512, 512, 2048], stage=5, block='b')
-    x = identity_block(x, 3, [512, 512, 2048], stage=5, block='c')
-
-    x = AveragePooling2D((7, 7), name='avg_pool')(x)
-
-    if include_top:
-        x = Flatten()(x)
-        x = Dense(classes, activation='softmax', name='fc1000')(x)
-    else:
-        if pooling == 'avg':
-            x = GlobalAveragePooling2D()(x)
-        elif pooling == 'max':
-            x = GlobalMaxPooling2D()(x)
-
-    # Ensure that the model takes into account
-    # any potential predecessors of `input_tensor`.
-    if input_tensor is not None:
-        inputs = get_source_inputs(input_tensor)
-    else:
-        inputs = img_input
-    # Create model.
-    model = Model(inputs, x, name='se_resnet50')
-
-    # load weights
-    '''
-    if weights == 'imagenet':
-        if include_top:
-            weights_path = get_file('resnet50_weights_tf_dim_ordering_tf_kernels.h5',
-                                    WEIGHTS_PATH,
-                                    cache_subdir='models',
-                                    md5_hash='a7b3fe01876f51b976af0dea6bc144eb')
-        else:
-            weights_path = get_file('resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5',
-                                    WEIGHTS_PATH_NO_TOP,
-                                    cache_subdir='models',
-                                    md5_hash='a268eb855778b3df3c7506639542a6af')
-        model.load_weights(weights_path)
-        if K.backend() == 'theano':
-            layer_utils.convert_all_kernels_in_model(model)
-            if include_top:
-                maxpool = model.get_layer(name='avg_pool')
-                shape = maxpool.output_shape[1:]
-                dense = model.get_layer(name='fc1000')
-                layer_utils.convert_dense_weights_data_format(dense, shape, 'channels_first')
-
-        if K.image_data_format() == 'channels_first' and K.backend() == 'tensorflow':
-            warnings.warn('You are using the TensorFlow backend, yet you '
-                          'are using the Theano '
-                          'image data format convention '
-                          '(`image_data_format="channels_first"`). '
-                          'For best performance, set '
-                          '`image_data_format="channels_last"` in '
-                          'your Keras config '
-                          'at ~/.keras/keras.json.')
-    el'''
-    if weights is not None:
-        model.load_weights(weights)
-
-    return model
 
 # Freeze layers for finetunning
 def freeze_layers(model, freeze_layers_from):
     # Freeze the VGG part only
     if freeze_layers_from == 'base_model':
         print ('   Freezing base model layers')
-        freeze_layers_from = -1 # TODO change this number
+        freeze_layers_from = -1  # TODO change this number
 
     # Show layers (Debug pruposes)
     for i, layer in enumerate(model.layers):
