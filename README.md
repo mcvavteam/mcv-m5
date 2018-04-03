@@ -24,6 +24,7 @@ Furthermore, we aim to learn the basic concepts, techniques, tricks and librarie
 - [You Only Look Once (YOLO)](https://www.overleaf.com/read/fvtfvvwbptsv)
 - [Focal Loss for Dense Object Detection](https://www.overleaf.com/read/xsknbrtmsbgd)
 - [Fully Convolutional Networks for Semantic Segmentation](https://drive.google.com/file/d/1AfJxdUBDgSleze1uJbtyS479wYe7Q6Pj/view?usp=sharing)
+- [Wider or Deeper: Revisiting the ResNet Model for Visual Recognition](https://drive.google.com/file/d/1nnYB8hGM77_PQLIwVtui7OVhnv4Uy17a/view?usp=sharing)
 
 ### Weights of the models
 The weights, experiments' info and the TensorBoard logs are available [here](https://drive.google.com/drive/folders/15mccIEOhimkFo_5K3M43Vmu9xT0CEvpC?usp=sharing).
@@ -131,6 +132,7 @@ On the other hand, the RetinaNet is a one stage detector network that matches th
 ## Semantic Segmentation (Weeks 5-6)
 
 <p align="justify"><b>Overview:</b>
+The goal of the image semantic segmentation is to label each pixel of the input image with the class that belongs. In order to do that task we used Wide - Resnet and FCN8 nets.
 <br/>
 
 
@@ -139,7 +141,7 @@ On the other hand, the RetinaNet is a one stage detector network that matches th
 <p align="justify"><b>Datasets:</b>
 
 [CamVid](http://mi.eng.cam.ac.uk/research/projects/VideoRec/CamVid/)<br/>
-[Cityscapes](https://www.cityscapes-dataset.com/)<br/>
+[Synthia Cityscapes](http://synthia-dataset.net/download-2/)<br/>
 
 </p>
 
@@ -156,7 +158,7 @@ On the other hand, the RetinaNet is a one stage detector network that matches th
 - [x] c) Implement a new network .<br> 
 	- [x] Using an existing Keras implementation.<br>
 	- [x] Writing our own implementation.<br>
-- [x] d) Train the networks for another dataset (Cityscapes).<br>
+- [x] d) Train the networks for another dataset (Synthia Cityscapes).<br>
 - [x] f) Boost the performance of your networks.<br>
 
 
@@ -166,7 +168,7 @@ On the other hand, the RetinaNet is a one stage detector network that matches th
 | Neuronal Network | Dataset     |  Accuracy | Loss | Jaccard Coefficient | FPS |
 | ---------------- |:-----------:|:---------:|:----:|:-------------------:|:---:|
 |FCN8              | CamVid      |0.9226     |0.2136|0.6561               |20.51| 
-|FCN8              | Cityscapes  | 	     | 	    | 	                  | 	| 
+|FCN8              |Synthia Cityscapes  | 	     | 	    | 	                  | 	| 
 |Wide ResNet       | CamVid      |0.9168     |0.3357|0.6016               |16.04|
-|Wide ResNet       | Cityscapes  |	     | 	    | 	                  | 	| 
+|Wide ResNet       |Synthia Cityscapes  |	     | 	    | 	                  | 	| 
 </p>
