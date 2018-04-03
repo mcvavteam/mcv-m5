@@ -154,8 +154,8 @@ On the other hand, the RetinaNet is a one stage detector network that matches th
 	- [x] Summary of “Fully Convolutional Networks for Semantic Segmentation”.<br>  
 	- [x] Another paper.<br> 
 - [x] c) Implement a new network .<br> 
-	-[x] Using an existing Keras implementation.<br>
-	-[x] Writing our own implementation.<br>
+	- [x] Using an existing Keras implementation.<br>
+	- [x] Writing our own implementation.<br>
 - [x] d) Train the networks for another dataset (Cityscapes).<br>
 - [x] f) Boost the performance of your networks.<br>
 
