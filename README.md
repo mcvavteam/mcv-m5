@@ -127,3 +127,46 @@ On the other hand, the RetinaNet is a one stage detector network that matches th
 |RetinaNet         | TT100K      | 0.5930	      | 0.0547	      | 0.1205	   | 0.9621	   | 0.7405	 | 69.22 |
 |RetinaNet         | Udacity     | 0.1216	      | 0.0978	      | 0.1147	   | 0.1580	   | 0.3424	 | 66.54 |
 </p>
+
+## Semantic Segmentation (Weeks 5-6)
+
+<p align="justify"><b>Overview:</b>
+<br/>
+
+
+</p>
+
+<p align="justify"><b>Datasets:</b>
+
+[CamVid](http://mi.eng.cam.ac.uk/research/projects/VideoRec/CamVid/)<br/>
+[Cityscapes](https://www.cityscapes-dataset.com/)<br/>
+
+</p>
+
+<b>Contributions to the code:</b>
++ `code/models/wide_resnet.py` - RetinaNet implementation.  
++ `code/config/*` - Configuration files for image detection 
+	
+<b>Completeness of the goals:</b>
+
+- [x] a) Run the provided code.<br> 
+- [x] b) Read two papers.<br>  
+	- [x] Summary of “Fully Convolutional Networks for Semantic Segmentation”.<br>  
+	- [x] Another paper.<br> 
+- [x] c) Implement a new network .<br> 
+	-[x] Using an existing Keras implementation.<br>
+	-[x] Writing our own implementation.<br>
+- [x] d) Train the networks for another dataset (Cityscapes).<br>
+- [x] f) Boost the performance of your networks.<br>
+
+
+
+<p align="justify"><b>Results:</b>
+
+| Neuronal Network | Dataset     |  Accuracy | Loss | Jaccard Coefficient | FPS |
+| ---------------- |:-----------:|:---------:|:----:|:-------------------:|:---:|
+|FCN8              | CamVid      |0.9226     |0.2136|0.6561               |20.51| 
+|FCN8              | Cityscapes  | 	     | 	    | 	                  | 	| 
+|Wide ResNet       | CamVid      |0.9168     |0.3357|0.6016               |16.04|
+|Wide ResNet       | Cityscapes  |	     | 	    | 	                  | 	| 
+</p>
