@@ -32,6 +32,7 @@ def build_wide_resnet(img_shape=(360, 480, 3), nclasses=8, l2_reg=0.,
     # 224-0-3-3-6-3-1-1
     # Block 2 (3 times)
     block_filters = [128, 128]
+    """
     x = block(x, filters_vector=block_filters,
               strides=1,
               dilations_vector=[1, 1],
@@ -40,6 +41,7 @@ def build_wide_resnet(img_shape=(360, 480, 3), nclasses=8, l2_reg=0.,
               strides=1,
               dilations_vector=[1, 1],
               name='block2_2')
+    """
     x = block(x, filters_vector=block_filters,
               strides=2,
               dilations_vector=[1, 1],
@@ -47,6 +49,7 @@ def build_wide_resnet(img_shape=(360, 480, 3), nclasses=8, l2_reg=0.,
 
     # Block 3 (3 times)
     block_filters = [256, 256]
+    """
     x = block(x, filters_vector=block_filters,
               strides=1,
               dilations_vector=[1, 1],
@@ -55,6 +58,7 @@ def build_wide_resnet(img_shape=(360, 480, 3), nclasses=8, l2_reg=0.,
               strides=1,
               dilations_vector=[1, 1],
               name='block3_2')
+    """
     x = block(x, filters_vector=block_filters,
               strides=2,
               dilations_vector=[1, 1],
@@ -62,6 +66,7 @@ def build_wide_resnet(img_shape=(360, 480, 3), nclasses=8, l2_reg=0.,
 
     # Block 4 (6 times)
     block_filters = [512, 512]
+    """
     x = block(x, filters_vector=block_filters,
               strides=1,
               dilations_vector=[1, 1],
@@ -82,6 +87,7 @@ def build_wide_resnet(img_shape=(360, 480, 3), nclasses=8, l2_reg=0.,
               strides=1,
               dilations_vector=[1, 1],
               name='block4_5')
+    """
     x = block(x, filters_vector=block_filters,
               strides=2,
               dilations_vector=[1, 1],
@@ -89,6 +95,7 @@ def build_wide_resnet(img_shape=(360, 480, 3), nclasses=8, l2_reg=0.,
 
     # Block 5 (3 times)
     block_filters = [512, 1024]
+    """
     x = block(x, filters_vector=block_filters,
               strides=1,
               dilations_vector=[2, 2],
@@ -97,6 +104,7 @@ def build_wide_resnet(img_shape=(360, 480, 3), nclasses=8, l2_reg=0.,
               strides=1,
               dilations_vector=[2, 2],
               name='block5_2')
+    """
     x = block(x, filters_vector=block_filters,
               strides=1,
               dilations_vector=[2, 2],
