@@ -175,7 +175,7 @@ def build_wide_resnet(img_shape=(360, 480, 3), nclasses=8, l2_reg=0.,
 
 
     model = Model(inputs=input, outputs=out)
-    model.summary()
+
     # TODO Freeze some layers
     #if freeze_layers_from is not None:
     #    freeze_layers(model, freeze_layers_from)
