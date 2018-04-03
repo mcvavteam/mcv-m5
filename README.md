@@ -131,6 +131,7 @@ On the other hand, the RetinaNet is a one stage detector network that matches th
 ## Semantic Segmentation (Weeks 5-6)
 
 <p align="justify"><b>Overview:</b>
+The goal of the image semantic segmentation is to label each pixel of the input image with the class that belongs. In order to do that task we used Wide - Resnet and FCN8 nets.
 <br/>
 
 
