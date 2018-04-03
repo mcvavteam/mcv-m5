@@ -23,6 +23,7 @@ Furthermore, we aim to learn the basic concepts, techniques, tricks and librarie
 - [Squeeze and Excitation Blocks](https://www.overleaf.com/read/bxmpwjqhckmn)
 - [You Only Look Once (YOLO)](https://www.overleaf.com/read/fvtfvvwbptsv)
 - [Focal Loss for Dense Object Detection](https://www.overleaf.com/read/xsknbrtmsbgd)
+- [Fully Convolutional Networks for Semantic Segmentation](https://drive.google.com/file/d/1AfJxdUBDgSleze1uJbtyS479wYe7Q6Pj/view?usp=sharing)
 
 ### Weights of the models
 The weights, experiments' info and the TensorBoard logs are available [here](https://drive.google.com/drive/folders/15mccIEOhimkFo_5K3M43Vmu9xT0CEvpC?usp=sharing).
