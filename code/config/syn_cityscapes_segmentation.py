@@ -47,7 +47,7 @@ seed_test                    = 1924            # Random seed for the testing shu
 optimizer                    = 'rmsprop'       # Optimizer
 learning_rate                = 0.0001          # Training learning rate
 weight_decay                 = 0.              # Weight decay or L2 parameter norm penalty
-n_epochs                     = 1000            # Number of epochs during training
+n_epochs                     = 5            # Number of epochs during training
 
 # Callback save results
 save_results_enabled         = False           # Enable the Callback
