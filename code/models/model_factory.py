@@ -7,7 +7,7 @@ from keras.utils.vis_utils import plot_model
 
 # Classification models
 from metrics.retina_metrics import RetinaLoss, RetinaMetrics
-from models.resnetFCN import build_resnetFCN
+#from models.resnetFCN import build_resnetFCN
 from models.retinanet import build_retinanet
 from models.se_resnet50 import build_se_resnet50
 from models.vgg import build_vgg
