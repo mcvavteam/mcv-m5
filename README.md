@@ -145,8 +145,8 @@ The goal of the image semantic segmentation is to label each pixel of the input 
 </p>
 
 <b>Contributions to the code:</b>
-+ `code/models/wide_resnet.py` - RetinaNet implementation.  
-+ `code/config/*` - Configuration files for image detection 
++ `code/models/wide_resnet.py` - ResnetFCN implementation.  
++ `code/config/*` - Configuration files for semantic segmentation 
 	
 <b>Completeness of the goals:</b>
 
