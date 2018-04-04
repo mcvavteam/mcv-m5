@@ -111,7 +111,7 @@ On the other hand, the RetinaNet is a one stage detector network that matches th
 		
 - [x] b) Read two papers cited in the object detection networks section.<br>  
 	- [x] YOLO.<br>  
-	- [x] Another paper.<br> 
+	- [x] Another paper (RetinaNet).<br> 
 - [x] c) Implement a new network (c.2 - Develop the network entirely by yourself).<br> 
 - [x] d) Train the networks for another dataset (Udacity).<br>
 - [x] f) Report showing the achieved results.<br>
@@ -135,13 +135,12 @@ On the other hand, the RetinaNet is a one stage detector network that matches th
 The goal of the image semantic segmentation is to label each pixel of the input image with the class that belongs. In order to do that task we used Wide - Resnet and FCN8 nets.
 <br/>
 
-
 </p>
 
 <p align="justify"><b>Datasets:</b>
 
 [CamVid](http://mi.eng.cam.ac.uk/research/projects/VideoRec/CamVid/)<br/>
-[Synthia Cityscapes](http://synthia-dataset.net/download-2/)<br/>
+[Cityscapes](https://www.cityscapes-dataset.com/)<br/>
 
 </p>
 
@@ -154,12 +153,10 @@ The goal of the image semantic segmentation is to label each pixel of the input 
 - [x] a) Run the provided code.<br> 
 - [x] b) Read two papers.<br>  
 	- [x] Summary of “Fully Convolutional Networks for Semantic Segmentation”.<br>  
-	- [x] Another paper.<br> 
-- [x] c) Implement a new network .<br> 
-	- [x] Using an existing Keras implementation.<br>
-	- [x] Writing our own implementation.<br>
-- [x] d) Train the networks for another dataset (Synthia Cityscapes).<br>
-- [x] f) Boost the performance of your networks.<br>
+	- [x] Another paper (ResnetFCN).<br> 
+- [x] c) Implement a new network (c.2 - Develop the network entirely by yourself).<br> 
+- [x] d) Train the networks for another dataset (Cityscapes).<br>
+- [x] f) Report showing the achieved results.<br>
 
 
 
@@ -168,7 +165,7 @@ The goal of the image semantic segmentation is to label each pixel of the input 
 | Neuronal Network | Dataset     |  Accuracy | Loss | Jaccard Coefficient | FPS |
 | ---------------- |:-----------:|:---------:|:----:|:-------------------:|:---:|
 |FCN8              | CamVid      |0.9226     |0.2136|0.6561               |20.51| 
-|FCN8              |Synthia Cityscapes  | 	     | 	    | 	                  | 	| 
+|FCN8              | Cityscapes  | 	     | 	    | 	                  | 	| 
 |Wide ResNet       | CamVid      |0.9168     |0.3357|0.6016               |16.04|
-|Wide ResNet       |Synthia Cityscapes  |	     | 	    | 	                  | 	| 
+|Wide ResNet       | Cityscapes  |	     | 	    | 	                  | 	| 
 </p>
