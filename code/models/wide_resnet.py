@@ -156,9 +156,11 @@ def build_wide_resnet(img_shape=(360, 480, 3), nclasses=8, l2_reg=0.,
     else:
         curlayer_output_height = curlayer_output_shape[2]
         curlayer_output_width = curlayer_output_shape[3]
-
-    x = Cropping2D(cropping=((curlayer_output_height - img_shape[0]) / 2,
-                             (curlayer_output_width - img_shape[1]) / 2))(x)
+    height_crop = (curlayer_output_height - img_shape[0]) / 2
+    width_crop = (curlayer_output_width - img_shape[1]) / 2
+    x = Cropping2D(((height_crop, height_crop + (img_shape[0] % 2)),
+                    (width_crop, width_crop + (img_shape[1] % 2))),
+                   name='crop')(x)
 
     # Reshape to vector
     curlayer_output_shape = Model(inputs=input, outputs=x).output_shape
