@@ -31,9 +31,9 @@ batch_size_test              = 10              # Batch size during testing
 crop_size_train              = None            # Crop size during training (Height, Width) or None
 crop_size_valid              = None            # Crop size during validation
 crop_size_test               = None            # Crop size during testing
-resize_train                 = (360, 480)      # Resize the image during training (Height, Width) or None
-resize_valid                 = (360, 480)      # Resize the image during validation
-resize_test                  = (360, 480)      # Resize the image during testing
+resize_train                 = (226, 745)      # Resize the image during training (Height, Width) or None
+resize_valid                 = (226, 745)      # Resize the image during validation
+resize_test                  = (226, 745)      # Resize the image during testing
 
 # Data shuffle
 shuffle_train                = True            # Whether to shuffle the training data
@@ -47,7 +47,7 @@ seed_test                    = 1924            # Random seed for the testing shu
 optimizer                    = 'rmsprop'       # Optimizer
 learning_rate                = 0.0001          # Training learning rate
 weight_decay                 = 0.              # Weight decay or L2 parameter norm penalty
-n_epochs                     = 1000            # Number of epochs during training
+n_epochs                     = 10               # Number of epochs during training
 
 # Callback save results
 save_results_enabled         = False           # Enable the Callback
@@ -58,7 +58,7 @@ save_results_batch_size      = 5               # Size of the batch
 earlyStopping_enabled        = True            # Enable the Callback
 earlyStopping_monitor        = 'val_jaccard_coef'   # Metric to monitor
 earlyStopping_mode           = 'max'           # Mode ['max' | 'min']
-earlyStopping_patience       = 100             # Max patience for the early stopping
+earlyStopping_patience       = 5               # Max patience for the early stopping
 earlyStopping_verbose        = 0               # Verbosity of the early stopping
 
 # Callback model check point
@@ -81,14 +81,14 @@ lrDecayScheduler_rate        = 2               # Decay rate (new_lr = lr / decay
 # Callback learning rate scheduler
 LRScheduler_enabled          = True             # Enable the Callback
 LRScheduler_batch_epoch      = 'batch'          # Schedule the LR each 'batch' or 'epoch'
-LRScheduler_type             = 'poly'         # Type of scheduler ['linear' | 'step' | 'square' | 'sqrt' | 'poly']
+LRScheduler_type             = 'poly'           # Type of scheduler ['linear' | 'step' | 'square' | 'sqrt' | 'poly']
 LRScheduler_M                = 75000            # Number of iterations/epochs expected until convergence
 LRScheduler_decay            = 0.1              # Decay for 'step' method
 LRScheduler_S                = 10000            # Step for the 'step' method
 LRScheduler_power            = 0.9              # Power for te poly method
 
 # Callback TensorBoard
-TensorBoard_enabled          = True            # Enable the Callback
+TensorBoard_enabled          = True             # Enable the Callback
 TensorBoard_histogram_freq   = 0                # Frequency (in epochs) at which to compute activation histograms for the layers of the model. If set to 0, histograms won't be computed.
 TensorBoard_write_graph      = True             # Whether to visualize the graph in Tensorboard. The log file can become quite large when write_graph is set to True.
 TensorBoard_write_images     = False            # Whether to write model weights to visualize as image in Tensorboard.
@@ -98,8 +98,8 @@ TensorBoard_logs_folder      = None             #
 norm_imageNet_preprocess           = False  # Normalize following imagenet procedure
 norm_fit_dataset                   = True   # If True it recompute std and mean from images. Either it uses the std and mean set at the dataset config file
 norm_rescale                       = 1/255. # Scalar to divide and set range 0-1
-norm_featurewise_center            = False   # Substract mean - dataset
-norm_featurewise_std_normalization = False   # Divide std - dataset
+norm_featurewise_center            = False  # Substract mean - dataset
+norm_featurewise_std_normalization = False  # Divide std - dataset
 norm_samplewise_center             = False  # Substract mean - sample
 norm_samplewise_std_normalization  = False  # Divide std - sample
 norm_gcn                           = False  # Global contrast normalization
