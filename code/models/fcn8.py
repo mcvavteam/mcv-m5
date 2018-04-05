@@ -107,18 +107,14 @@ def build_fcn8(img_shape=(416, 608, 3), nclasses=8, l2_reg=0.,
     o = Add()([o2, o])
 
     o = Conv2DTranspose(nclasses, kernel_size=(16, 16), strides=(8, 8), use_bias=False, data_format=IMAGE_ORDERING)(o)
+
+    # Crop borders to fit original size
     o_shape = Model(img_input, o).output_shape
-    o = Cropping2D(((o_shape[1] - img_shape[0]) / 2, (o_shape[2] - img_shape[1]) / 2), name='crop')(o)
-
-    """
-    o_shape = Model(img_input, o).output_shape
-
-    outputHeight = o_shape[1]
-    outputWidth = o_shape[2]
-
-    o = (Reshape((-1, outputHeight * outputWidth)))(o)
-    o = (Permute((2, 1)))(o)
-    """
+    height_crop = (o_shape[1] - img_shape[0]) / 2
+    width_crop = (o_shape[2] - img_shape[1]) / 2
+    o = Cropping2D(((height_crop, height_crop + (img_shape[0] % 2)),
+                    (width_crop, width_crop + (img_shape[1] % 2))),
+                   name='crop')(o)
 
     # Reshape to vector
     curlayer_output_shape = Model(inputs=img_input, outputs=o).output_shape
@@ -132,8 +128,8 @@ def build_fcn8(img_shape=(416, 608, 3), nclasses=8, l2_reg=0.,
 
     o = Activation('softmax')(o)
     model = Model(img_input, o)
-    #model.outputWidth = outputWidth
-    #model.outputHeight = outputHeight
+    # model.outputWidth = outputWidth
+    # model.outputHeight = outputHeight
 
     # Freeze some layers
     if freeze_layers_from is not None:
