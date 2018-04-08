@@ -140,7 +140,7 @@ The goal of the image semantic segmentation is to label each pixel of the input 
 <p align="justify"><b>Datasets:</b>
 
 [CamVid](http://mi.eng.cam.ac.uk/research/projects/VideoRec/CamVid/)<br/>
-[Cityscapes](https://www.cityscapes-dataset.com/)<br/>
+[KITTI](http://www.cvlibs.net/datasets/kitti/)<br/>
 
 </p>
 
@@ -155,7 +155,7 @@ The goal of the image semantic segmentation is to label each pixel of the input 
 	- [x] Summary of “Fully Convolutional Networks for Semantic Segmentation”.<br>  
 	- [x] Another paper (ResnetFCN).<br> 
 - [x] c) Implement a new network (c.2 - Develop the network entirely by yourself).<br> 
-- [x] d) Train the networks for another dataset (Cityscapes).<br>
+- [x] d) Train the networks for another dataset (KITTI).<br>
 - [x] f) Report showing the achieved results.<br>
 
 
@@ -165,7 +165,7 @@ The goal of the image semantic segmentation is to label each pixel of the input 
 | Neuronal Network | Dataset     |  Accuracy | Loss | Jaccard Coefficient | FPS |
 | ---------------- |:-----------:|:---------:|:----:|:-------------------:|:---:|
 |FCN8              | CamVid      |0.9226     |0.2136|0.6561               |20.51| 
-|FCN8              | Cityscapes  |Running... |Running...|Running...       |Running...| 
+|FCN8              | KITTI       |0.8226     |0.7920|0.4128               |14.56| 
 |ResnetFCN         | CamVid      |0.9168     |0.3357|0.6016               |16.04|
-|ResnetFCN       | Cityscapes  |Running... |Running...|Running...       |Running...| 
+|ResnetFCN         | KITTI       |0.5329     |2.0688|0.1690               |13.67| 
 </p>
