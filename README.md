@@ -165,7 +165,7 @@ The goal of the image semantic segmentation is to label each pixel of the input 
 | Neuronal Network | Dataset     |  Accuracy | Loss | Jaccard Coefficient | FPS |
 | ---------------- |:-----------:|:---------:|:----:|:-------------------:|:---:|
 |FCN8              | CamVid      |0.9226     |0.2136|0.6561               |20.51| 
-|FCN8              | KITTI       |0.8226     |0.7920|0.4128               |14.56| 
+|FCN8              | KITTI       |0.8298     |0.7721|0.4284               |17.85| 
 |ResnetFCN         | CamVid      |0.9168     |0.3357|0.6016               |16.04|
-|ResnetFCN         | KITTI       |0.5329     |2.0688|0.1690               |13.67| 
+|ResnetFCN         | KITTI       |0.7936     |1.0637|0.3642               |14.85| 
 </p>
